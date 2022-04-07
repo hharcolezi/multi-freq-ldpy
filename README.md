@@ -3,7 +3,6 @@
 It would be good if we work with the same enviroment. So, if you can, please create one with the following libraries.
 ```bash
 I'm currently using
-```
 Python 3.7.8
 numpy 1.21.5
 numba 0.55.1
