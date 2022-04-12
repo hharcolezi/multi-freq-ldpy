@@ -1,4 +1,4 @@
-# multi-dim-ldpy
+# Multi-Freq-LDPy
 
 It would be good if we work with the same enviroment. So, if you can, please create one with the following libraries.
 ```bash
