@@ -1,5 +1,9 @@
 # Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python
 
+## In construction.
+
+## To do
+
 I'm currently using:
 ```bash
 Python 3.7.8
