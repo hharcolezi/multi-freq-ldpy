@@ -7,21 +7,18 @@ from pure_frequency_oracles.ADP import ADP_Client, ADP_Aggregator
 np.random.seed(42)
 
 print('-----------------------Starting Single Frequency Estimation-----------------------')
-# Test dataset
-dataset = [0]*40000 + [1]*30000 + [2]*20000 + [3]*10000
-
-k = len(set(dataset))
-n = len(dataset)
+# Synthetic dataset
+k = 5
+n = 10000
 eps = 1
+
+dataset = [np.random.randint(k) for _ in range(n)]
 
 lst = []
 
 for item in dataset:
-    #print(type(item))
-    # Simulate client-side privatisation
-    lst.append(GRR_Client(item, k, eps))
 
-# Simulate server-side aggregation
+    lst.append(GRR_Client(item, k, eps))
 
 
 print(GRR_Aggregator(lst, k=k, epsilon=eps))
@@ -29,21 +26,18 @@ print(GRR_Aggregator(lst, k=k, epsilon=eps))
 lst = []
 
 for item in dataset:
-    #print(type(item))
-    # Simulate client-side privatisation
+
     lst.append(UE_Client(item, k, eps, False))
 
-# Simulate server-side aggregation
 print(UE_Aggregator(lst, epsilon=eps, optimal=False))
 
 lst = []
 
 for item in dataset:
-    #print(type(item))
-    # Simulate client-side privatisation
+
     lst.append(ADP_Client(item, k, eps, False))
 
-# Simulate server-side aggregation
+
 print(ADP_Aggregator(lst, k, epsilon=eps, optimal=False))
 
 print('-----------------------Starting Multidimensional-----------------------')
@@ -132,7 +126,7 @@ for idx in range(n):
 
 print('-----------------------EXAMPLE L-GRR-----------------------')
 print(lst[0])
-# Simulate server-side aggregation
+
 print('-----------------------ESTIMATION L-GRR-----------------------')
 print(L_GRR_Aggregator(lst, k, eps_perm, eps_1))
 
