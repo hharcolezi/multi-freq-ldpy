@@ -19,7 +19,7 @@ def L_OSUE_Client(input_data, k, eps_perm, eps_1):
     p1 = 1 / 2
     q1 = 1 / (np.exp(eps_perm) + 1)
 
-    # SUE parameters for round 1
+    # SUE parameters for round 2
     p2 = (1 - np.exp(eps_1 + eps_perm)) / (np.exp(eps_1) - np.exp(eps_perm) - np.exp(eps_1 + eps_perm) + 1)
     q2 = 1 - p2
 
