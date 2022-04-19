@@ -78,6 +78,6 @@ def L_GRR_Aggregator(reports, k, eps_perm, eps_1):
     est_freq = ((count_report - n*q1*(p2-q2) - n*q2) / (n*(p1-q1)*(p2-q2))).clip(0)
 
     # Re-normalized estimated frequency
-    norm_est_freq = est_freq / sum(est_freq)
-    
-    return np.nan_to_num(norm_est_freq)
+    norm_est_freq = np.nan_to_num(est_freq / sum(est_freq))
+
+    return norm_est_freq

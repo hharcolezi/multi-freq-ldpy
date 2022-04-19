@@ -80,9 +80,9 @@ def UE_Aggregator(reports, epsilon, optimal=True):
             est_freq = np.array((sum(reports) - q * n) / (p-q)).clip(0)
 
             # Re-normalized estimated frequency
-            norm_est_freq = est_freq / sum(est_freq)
+            norm_est_freq = np.nan_to_num(est_freq / sum(est_freq))
 
-            return np.nan_to_num(norm_est_freq)
+            return norm_est_freq
 
         else:
             raise ValueError('epsilon (float) needs a numerical value.')
