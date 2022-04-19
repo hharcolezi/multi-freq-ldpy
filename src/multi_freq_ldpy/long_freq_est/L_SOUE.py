@@ -142,6 +142,10 @@ def L_SOUE_Aggregator(ue_reports, eps_perm, eps_1):
     est_freq = ((sum(ue_reports) - n * q1 * (p2 - q2) - n * q2) / (n * (p1 - q1) * (p2 - q2))).clip(0)
 
     # Re-normalized estimated frequency
-    norm_est_freq = np.nan_to_num(est_freq / sum(est_freq))
+    if sum(est_freq) > 0:
+        norm_est_freq = np.nan_to_num(est_freq / sum(est_freq))
+
+    else:
+        norm_est_freq = np.ones(k) / k
 
     return norm_est_freq
