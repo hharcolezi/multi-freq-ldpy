@@ -104,7 +104,7 @@ def SPL_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
 		reports = reports_tuple[:, idx]
 		lst_freq_est.append(GRR_Aggregator(reports, lst_k[idx], eps_spl))
 
-	return lst_freq_est
+	return np.array(lst_freq_est, dtype='object')
 
 def SPL_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
 
@@ -134,7 +134,7 @@ def SPL_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
 		reports_ue = reports_tuple[:, idx]
 		lst_freq_est.append(UE_Aggregator(reports_ue, eps_spl, optimal))
 
-	return lst_freq_est
+	return np.array(lst_freq_est, dtype='object')
 
 def SPL_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
@@ -164,4 +164,4 @@ def SPL_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 		reports = reports_tuple[:, idx]
 		lst_freq_est.append(ADP_Aggregator(reports, lst_k[idx], eps_spl, optimal))
 
-	return lst_freq_est
+	return np.array(lst_freq_est, dtype='object')

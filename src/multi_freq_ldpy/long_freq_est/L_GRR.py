@@ -80,4 +80,4 @@ def L_GRR_Aggregator(reports, k, eps_perm, eps_1):
     # Re-normalized estimated frequency
     norm_est_freq = est_freq / sum(est_freq)
     
-    return norm_est_freq
+    return np.nan_to_num(norm_est_freq)

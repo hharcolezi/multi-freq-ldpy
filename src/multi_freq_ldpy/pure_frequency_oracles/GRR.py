@@ -71,7 +71,7 @@ def GRR_Aggregator(reports, k, epsilon):
             # Re-normalized estimated frequency
             norm_est_freq = est_freq / sum(est_freq) 
 
-            return norm_est_freq
+            return np.nan_to_num(norm_est_freq)
 
         else:
             raise ValueError('k (int) and epsilon (float) need a numerical value.')

@@ -94,7 +94,7 @@ def SMP_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
     for idx in range(d):
         lst_freq_est.append(GRR_Aggregator(dic_rep_smp[idx], lst_k[idx], epsilon))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
 
@@ -122,7 +122,7 @@ def SMP_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
     for idx in range(d):
         lst_freq_est.append(UE_Aggregator(dic_rep_smp[idx], epsilon, optimal))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
     """
@@ -150,4 +150,4 @@ def SMP_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
         lst_freq_est.append(ADP_Aggregator(dic_rep_smp[idx], lst_k[idx], epsilon, optimal))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')

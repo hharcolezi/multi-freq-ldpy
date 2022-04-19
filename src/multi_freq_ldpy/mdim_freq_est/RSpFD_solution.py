@@ -214,7 +214,7 @@ def RSpFD_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
 
         lst_freq_est.append(norm_est_freq)
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def RSpFD_UE_zero_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
@@ -263,7 +263,7 @@ def RSpFD_UE_zero_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
         lst_freq_est.append(norm_est_freq)
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def RSpFD_UE_rnd_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
@@ -312,7 +312,7 @@ def RSpFD_UE_rnd_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
         lst_freq_est.append(norm_est_freq)
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def RSpFD_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
@@ -381,4 +381,4 @@ def RSpFD_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
         lst_freq_est.append(norm_est_freq)
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
