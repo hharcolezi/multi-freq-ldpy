@@ -1,9 +1,11 @@
 import numpy as np
+from numba import jit
 
 # [1] Arcolezi et al (2021) "Improving the Utility of Locally Differentially Private Protocols for Longitudinal and Multidimensional Frequency Estimates" (arXiv:2111.04636).
 # [2] Erlingsson, Pihur, and Korolova (2014) "RAPPOR: Randomized aggregatable privacy-preserving ordinal response" (ACM CCS).
 # [3] Wang et al (2017) "Locally differentially private protocols for frequency estimation" (USENIX Security).
 
+@jit(nopython=True)
 def L_SUE_Client(input_data, k, eps_perm, eps_1):
 
     """
