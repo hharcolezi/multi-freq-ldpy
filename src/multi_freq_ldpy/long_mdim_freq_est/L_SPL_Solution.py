@@ -176,7 +176,7 @@ def SPL_L_GRR_Aggregator(reports_tuple, lst_k, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_GRR_Aggregator(reports, lst_k[idx], eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_L_OUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
 
@@ -202,7 +202,7 @@ def SPL_L_OUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_OUE_Aggregator(reports, eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_L_OSUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
 
@@ -228,7 +228,7 @@ def SPL_L_OSUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_OSUE_Aggregator(reports, eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_L_SUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
 
@@ -254,7 +254,7 @@ def SPL_L_SUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_SUE_Aggregator(reports, eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_L_SOUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
 
@@ -280,7 +280,7 @@ def SPL_L_SOUE_Aggregator(reports_tuple, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_SOUE_Aggregator(reports, eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_L_ADP_Aggregator(reports_tuple, lst_k, d, eps_perm, eps_1):
 
@@ -307,4 +307,4 @@ def SPL_L_ADP_Aggregator(reports_tuple, lst_k, d, eps_perm, eps_1):
         reports = reports_tuple[:, idx]
         lst_freq_est.append(L_ADP_Aggregator(reports, lst_k[idx], eps_perm_spl, eps_1_spl))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')

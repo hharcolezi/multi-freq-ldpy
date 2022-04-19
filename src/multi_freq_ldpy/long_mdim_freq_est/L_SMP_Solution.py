@@ -162,7 +162,7 @@ def SMP_L_GRR_Aggregator(reports_tuple, lst_k, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_GRR_Aggregator(dic_rep_smp[idx], lst_k[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_L_OUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
 
@@ -189,7 +189,7 @@ def SMP_L_OUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_OUE_Aggregator(dic_rep_smp[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_L_OSUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
 
@@ -216,7 +216,7 @@ def SMP_L_OSUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_OSUE_Aggregator(dic_rep_smp[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_L_SUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
 
@@ -243,7 +243,7 @@ def SMP_L_SUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_SUE_Aggregator(dic_rep_smp[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_L_SOUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
 
@@ -270,7 +270,7 @@ def SMP_L_SOUE_Aggregator(reports_ue_tuple, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_SOUE_Aggregator(dic_rep_smp[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
 
 def SMP_L_ADP_Aggregator(reports_ue_tuple, lst_k, d, eps_perm, eps_1):
 
@@ -297,4 +297,4 @@ def SMP_L_ADP_Aggregator(reports_ue_tuple, lst_k, d, eps_perm, eps_1):
     for idx in range(d):
         lst_freq_est.append(L_ADP_Aggregator(dic_rep_smp[idx], lst_k[idx], eps_perm, eps_1))
 
-    return lst_freq_est
+    return np.array(lst_freq_est, dtype='object')
