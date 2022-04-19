@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='multi-freq-ldpy',
-    version='0.1.2',
+    version='0.1.4',
     license='MIT',
     author="Héber H. Arcolezi",
     author_email='hh.arcolezi@gmail.com',
