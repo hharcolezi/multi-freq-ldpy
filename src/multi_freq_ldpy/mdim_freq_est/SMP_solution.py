@@ -48,6 +48,26 @@ def SMP_UE_Client(input_tuple, lst_k, d, epsilon, optimal=True):
     
     return att_sanitized_value
 
+def SMP_LH_Client(input_tuple, d, epsilon, optimal=True):
+
+    """
+    Sampling (SMP) a single attribute and using Local Hashing (LH) protocol [3] as local randomizer.
+
+    :param input_tuple: user's true tuple of values;
+    :param d: number of attributes;
+    :param epsilon: privacy guarantee;
+    :param optimal: if True, it uses the Optimized LH (OLH) protocol from [3];
+    :return: tuple (sampled attribute and tuple of sanitized value and random seed).
+    """
+
+    # Select an attribute at random
+    rnd_att = np.random.randint(d)
+
+    # Report the sampled attribute and its LDP value with UE protocol
+    att_sanitized_value = (rnd_att, LH_Client(input_tuple[rnd_att], epsilon, optimal))
+    
+    return att_sanitized_value
+
 def SMP_ADP_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
     """
@@ -121,6 +141,35 @@ def SMP_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
     lst_freq_est = []
     for idx in range(d):
         lst_freq_est.append(UE_Aggregator(dic_rep_smp[idx], epsilon, optimal))
+
+    return np.array(lst_freq_est, dtype='object')
+
+def SMP_LH_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+
+    """
+    Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
+
+    :param reports_tuple: list of all tuples (sampled attribute, sanitized value, and random seed);
+    :param lst_k: list of attributes' domain size;
+    :param d: number of attributes;
+    :param epsilon: privacy guarantee;
+    :param optimal: if True, it uses the Optimized LH (OLH) protocol from [3];
+    :return: normalized frequency (histogram) estimation of all d attributes.
+    """
+
+    if len(reports_tuple) == 0:
+
+        raise ValueError('List of reports is empty.')
+
+    # Gather users reporting the same attribute
+    dic_rep_smp = {att:[] for att in range(d)}
+    for val in reports_tuple:
+        dic_rep_smp[val[0]].append(val[1])
+
+    # Estimated frequency for all d attributes
+    lst_freq_est = []
+    for idx in range(d):
+        lst_freq_est.append(LH_Aggregator(dic_rep_smp[idx], lst_k[idx], epsilon, optimal))
 
     return np.array(lst_freq_est, dtype='object')
 

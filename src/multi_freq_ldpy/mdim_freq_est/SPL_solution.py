@@ -53,6 +53,28 @@ def SPL_UE_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
 	return sanitized_ue_tuple
 
+def SPL_LH_Client(input_tuple, d, epsilon, optimal=True):
+    """
+    Splitting (SPL) the privacy budget and using Local Hashing (LH) [3] protocol as local randomizer.
+
+    :param input_tuple: user's true tuple of values;
+    :param d: number of attributes;
+    :param epsilon: privacy guarantee;
+    :param optimal: if True, it uses the Optimized LH (OLH) protocol from [3];
+    :return: tuple of sanitized values/random seed tuples.
+    """
+
+    # Splitting the privacy budget over the number of attributes d
+    eps_spl = epsilon / d
+
+    # Sanitization of each value with UE protocol
+    sanitized_tuple = []
+    for idx in range(d):
+
+        sanitized_tuple.append(LH_Client(input_tuple[idx], eps_spl, optimal))
+
+    return sanitized_tuple
+
 def SPL_ADP_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
 	"""
@@ -135,6 +157,36 @@ def SPL_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
 		lst_freq_est.append(UE_Aggregator(reports_ue, eps_spl, optimal))
 
 	return np.array(lst_freq_est, dtype='object')
+
+def SPL_LH_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+
+    """
+    Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
+
+    :param reports_tuple: list of all sanitized tuples;
+    :param lst_k: list of attributes' domain size;
+    :param d: number of attributes;
+    :param epsilon: privacy guarantee;
+    :param optimal: if True, it uses the Optimized LH (OLH) protocol from [3];
+    :return: normalized frequency (histogram) estimation of all d attributes.
+    """
+
+    if len(reports_tuple) == 0:
+        raise ValueError('List of reports is empty.')
+
+    reports_tuple = np.array(reports_tuple, dtype='object')
+
+    # Splitting the privacy budget over the number of attributes d
+    eps_spl = epsilon / d
+
+    # Estimated frequency for all d attributes
+    lst_freq_est = []
+    for idx in range(d):
+
+        reports = reports_tuple[:, idx]
+        lst_freq_est.append(LH_Aggregator(reports, lst_k[idx], eps_spl, optimal))
+
+    return np.array(lst_freq_est, dtype='object')
 
 def SPL_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
