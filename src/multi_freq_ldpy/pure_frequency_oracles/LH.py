@@ -1,5 +1,6 @@
 import numpy as np
 from sys import maxsize
+import xxhash
 
 # [1] Wang et al (2017) "Locally differentially private protocols for frequency estimation" (USENIX Security).
 # [2] Bassily and Smith "Local, private, efficient protocols for succinct histograms" (STOC).
