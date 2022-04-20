@@ -21,7 +21,7 @@ setup(
     ],
     keywords='local-differential-privacy',
     install_requires=[
-                        'numpy', 'numba'
+                        'numpy', 'numba', 'xxhash'
                      ],
     description='Multiple Frequency Estimation Under Local Differential Privacy in Python',
     long_description=describe_package,
