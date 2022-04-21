@@ -31,7 +31,7 @@ Multi-Freq-LDPy covers the following tasks:
    * Generalized Randomized Response (GRR): ```multi_freq_ldpy.pure_frequency_oracles.GRR```
    * Symmetric/Optimized Unary Encoding (UE): ```multi_freq_ldpy.pure_frequency_oracles.UE```
    * Binary/Optimized Local Hashing (LH): ```multi_freq_ldpy.pure_frequency_oracles.LH```
-   * Adaptive (ADP) protocol (i.e., either GRR or Optimized UE) depending on variance value: ```multi_freq_ldpy.pure_frequency_oracles.ADP```
+   * Adaptive (ADP) protocol, i.e., GRR or Optimized UE depending on variance value: ```multi_freq_ldpy.pure_frequency_oracles.ADP```
 
 2. **Multidimensional Frequency Estimation** -- Three solutions for frequency estimation of multiple attributes from [Random Sampling Plus Fake Data: Multidimensional Frequency Estimates With Local Differential Privacy](https://arxiv.org/abs/2109.07269) with their respective frequency oracles (GRR, UE-based, and ADP), namely:
    * Splitting (SPL) the privacy budget: ```multi_freq_ldpy.mdim_freq_est.SPL_solution```
@@ -48,7 +48,7 @@ Multi-Freq-LDPy covers the following tasks:
 
 4. **Longitudinal Multidimensional Frequency Estimation** -- Both SPL and SMP solutions with all longitudinal protocols from previous point 3, namely:
    * Longitudinal SPL (L_SPL): ```multi_freq_ldpy.long_mdim_freq_est.L_SPL```
-   * Longitudinal SMP (L_SMP)```multi_freq_ldpy.long_mdim_freq_est.L_SMP```
+   * Longitudinal SMP (L_SMP): ```multi_freq_ldpy.long_mdim_freq_est.L_SMP```
 
 ## Usage
 This is a function-based package that simulates the LDP data collection pipeline of users and the server. For each functionality, there is always a ```Client``` and an ```Aggregator``` function. For more details, please refer to the [tutorials](https://github.com/hharcolezi/multi-freq-ldpy/tree/main/tutorials) folder, which covers all 1--4 tasks with real-world open datasets ([Adult](https://archive.ics.uci.edu/ml/datasets/adult), [Nursery](https://archive.ics.uci.edu/ml/datasets/nursery), [MS-FIMU](https://github.com/hharcolezi/OpenMSFIMU)).
@@ -96,7 +96,7 @@ plt.show();
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Contact
-For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
+For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
 
 ## Acknowledgments
 The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
