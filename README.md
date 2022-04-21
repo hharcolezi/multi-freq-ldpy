@@ -51,7 +51,7 @@ Multi-Freq-LDPy covers the following tasks:
    * Longitudinal SMP (L_SMP)```multi_freq_ldpy.long_mdim_freq_est.L_SMP```
 
 ## Usage
-This is a function-based package that simulates the LDP data collection pipeline of users and the server. For each functionality, there is always a ```Client``` and an ```Aggregator``` function. For more details, please refer to the [tutorials](https://github.com/hharcolezi/multi-freq-ldpy/tree/main/tutorials) folder, which covers all 1--4 tasks with real-world open datasets.
+This is a function-based package that simulates the LDP data collection pipeline of users and the server. For each functionality, there is always a ```Client``` and an ```Aggregator``` function. For more details, please refer to the [tutorials](https://github.com/hharcolezi/multi-freq-ldpy/tree/main/tutorials) folder, which covers all 1--4 tasks with real-world open datasets ([Adult](https://archive.ics.uci.edu/ml/datasets/adult), [Nursery](https://archive.ics.uci.edu/ml/datasets/nursery), [MS-FIMU](https://github.com/hharcolezi/OpenMSFIMU)).
 
 ```python
 # Common libraries
@@ -97,6 +97,9 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Contact
 For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
+
+## Acknowledgments
+The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
 
 ## License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
