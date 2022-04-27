@@ -1,1 +1,4 @@
 *.ipynb linguist-detectable=false
+
+* linguist-vendored
+*.ipynb linguist-vendored=false
