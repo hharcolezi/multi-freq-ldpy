@@ -28,6 +28,22 @@ from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import LabelEncoder
 
 
+# ## Usage Example
+
+# In[22]:
+
+
+k = 10 # number of values
+input_data = 2 # real input value
+eps_perm = 2 # epsilon infinity (infinity reports -- upper bound)
+eps_1 = 0.5 # epsilon 1 (single report -- lower bound)
+
+print('Real value:', input_data)
+print('Sanitization w/ L-GRR protocol:', L_GRR_Client(input_data, k, eps_perm, eps_1)) 
+print('Sanitization w/ L-SUE protocol:', L_SUE_Client(input_data, k, eps_perm, eps_1))
+print('Sanitization w/ L-OSUE protocol:', L_OSUE_Client(input_data, k, eps_perm, eps_1))
+
+
 # ## Importing Longitudinal Protocols from multi_freq_ldpy
 
 # In[2]:
@@ -93,7 +109,7 @@ print("List of epsilon_1 =", lst_eps_1)
 real_freq = np.unique(df, return_counts=True)[-1] / n
 
 # Repeat nb_seed times since DP protocols are randomized
-nb_seed = 50
+nb_seed = 30
 
 # Save Mean Squared Error (MSE) between real and estimated frequencies per seed
 dic_mse = {seed: 

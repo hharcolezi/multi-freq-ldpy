@@ -37,6 +37,24 @@ from multi_freq_ldpy.long_mdim_freq_est.L_SPL_Solution import *
 from multi_freq_ldpy.long_mdim_freq_est.L_SMP_Solution import *
 
 
+# ## Usage Example
+
+# In[12]:
+
+
+d = 3 # number of attributes
+lst_k = [2, 5, 10] # number of values per attribute
+input_data = [0, 3, 5] # real input values
+eps_perm = 2 # epsilon infinity (infinity reports -- upper bound)
+eps_1 = 0.05 # epsilon 1 (single report -- lower bound)
+
+print('Real value:', input_data)
+print('Sanitization w/ SPL solution and L-GRR protocol:', SPL_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1)) 
+print('Sanitization w/ SPL solution and L-SUE protocol:', SPL_L_SUE_Client(input_data, lst_k, d, eps_perm, eps_1))
+print('Sanitization w/ SMP solution and L-GRR protocol:', SMP_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1))
+print('Sanitization w/ SMP solution and L-SUE protocol:', SMP_L_SUE_Client(input_data, lst_k, d, eps_perm, eps_1))
+
+
 # ## Reading Nursery dataset
 
 # In[3]:
@@ -98,7 +116,7 @@ print("List of epsilon_1 =", lst_eps_1)
 real_freq = [np.unique(df[att], return_counts=True)[-1] / n for att in attributes]
 
 # Repeat nb_seed times since DP protocols are randomized
-nb_seed = 50
+nb_seed = 30
 
 # Save Averaged Mean Squared Error (MSE_avg) between real and estimated frequencies per seed
 dic_avg_mse = {seed: 
@@ -118,50 +136,50 @@ for seed in range(nb_seed):
         eps_1 = lst_eps_1[idx_eps]
         
         # SPL solution         
-        spl_reports = [SPL_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        spl_est_freq = SPL_L_GRR_Aggregator(spl_reports, lst_k, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SPL_L_GRR"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         spl_est_freq = SPL_L_GRR_Aggregator(spl_reports, lst_k, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SPL_L_GRR"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_L_OUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        spl_est_freq = SPL_L_OUE_Aggregator(spl_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SPL_L_OUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_L_OUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         spl_est_freq = SPL_L_OUE_Aggregator(spl_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SPL_L_OUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_L_OSUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        spl_est_freq = SPL_L_OSUE_Aggregator(spl_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SPL_L_OSUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_L_OSUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         spl_est_freq = SPL_L_OSUE_Aggregator(spl_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SPL_L_OSUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
         spl_reports = [SPL_L_SUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
         spl_est_freq = SPL_L_SUE_Aggregator(spl_reports, d, eps_perm, eps_1)
         dic_avg_mse[seed]["SPL_L_SUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_L_SOUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        spl_est_freq = SPL_L_SOUE_Aggregator(spl_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SPL_L_SOUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_L_SOUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         spl_est_freq = SPL_L_SOUE_Aggregator(spl_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SPL_L_SOUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
         spl_reports = [SPL_L_ADP_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
         spl_est_freq = SPL_L_ADP_Aggregator(spl_reports, lst_k, d, eps_perm, eps_1)
         dic_avg_mse[seed]["SPL_L_ADP"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
 
         # SMP solution 
-        smp_reports = [SMP_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        smp_est_freq = SMP_L_GRR_Aggregator(smp_reports, lst_k, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SMP_L_GRR"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_L_GRR_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         smp_est_freq = SMP_L_GRR_Aggregator(smp_reports, lst_k, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SMP_L_GRR"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_L_OUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        smp_est_freq = SMP_L_OUE_Aggregator(smp_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SMP_L_OUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_L_OUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         smp_est_freq = SMP_L_OUE_Aggregator(smp_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SMP_L_OUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_L_OSUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        smp_est_freq = SMP_L_OSUE_Aggregator(smp_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SMP_L_OSUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_L_OSUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         smp_est_freq = SMP_L_OSUE_Aggregator(smp_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SMP_L_OSUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
         smp_reports = [SMP_L_SUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
         smp_est_freq = SMP_L_SUE_Aggregator(smp_reports, d, eps_perm, eps_1)
         dic_avg_mse[seed]["SMP_L_SUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_L_SOUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
-        smp_est_freq = SMP_L_SOUE_Aggregator(smp_reports, d, eps_perm, eps_1)
-        dic_avg_mse[seed]["SMP_L_SOUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_L_SOUE_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
+#         smp_est_freq = SMP_L_SOUE_Aggregator(smp_reports, d, eps_perm, eps_1)
+#         dic_avg_mse[seed]["SMP_L_SOUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
         smp_reports = [SMP_L_ADP_Client(input_data, lst_k, d, eps_perm, eps_1) for input_data in df.values]
         smp_est_freq = SMP_L_ADP_Aggregator(smp_reports, lst_k, d, eps_perm, eps_1)

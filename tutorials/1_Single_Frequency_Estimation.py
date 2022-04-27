@@ -39,6 +39,21 @@ from multi_freq_ldpy.pure_frequency_oracles.ADP import *
 from multi_freq_ldpy.pure_frequency_oracles.LH import *
 
 
+# ## Usage Example
+
+# In[28]:
+
+
+k = 10 # number of values
+input_data = 2 # real input value
+eps = 1 # privacy guarantee
+
+print('Real value:', input_data)
+print('Sanitization w/ GRR protocol:', GRR_Client(input_data, k, eps)) 
+print('Sanitization w/ OUE protocol:', UE_Client(input_data, k, eps, optimal=True))
+print('Sanitization w/ OLH protocol:', LH_Client(input_data, eps, optimal=True)) # sanitized value, seed used to hash
+
+
 # ## Reading Adult dataset with only 'age' attribute
 
 # In[3]:
@@ -88,7 +103,7 @@ print('Epsilon values =', lst_eps)
 real_freq = np.unique(df, return_counts=True)[-1] / n
 
 # Repeat nb_seed times since DP protocols are randomized
-nb_seed = 50
+nb_seed = 30
 
 # Save Mean Squared Error (MSE) between real and estimated frequencies per seed
 dic_mse = {seed: 
@@ -166,7 +181,7 @@ barwidth = 0.4
 x_axis = np.arange(k)
 
 plt.bar(x_axis - barwidth, real_freq, label='Real Freq', width=barwidth)
-plt.bar(x_axis, olh_est_freq, label='Est Freq: OLH', width=barwidth)
+plt.bar(x_axis, oue_est_freq, label='Est Freq: OUE', width=barwidth)
 plt.ylabel('Normalized Frequency')
 plt.xlabel('Age attribute with domain size = {}'.format(k))
 plt.legend()

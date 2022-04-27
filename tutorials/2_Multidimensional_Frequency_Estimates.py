@@ -38,6 +38,22 @@ from multi_freq_ldpy.mdim_freq_est.SMP_solution import *
 from multi_freq_ldpy.mdim_freq_est.SPL_solution import *
 
 
+# ## Usage Example
+
+# In[9]:
+
+
+d = 3 # number of attributes
+lst_k = [2, 5, 10] # number of values per attribute
+input_data = [0, 3, 5] # real input values
+eps = 2 # privacy guarantee
+
+print('Real value:', input_data)
+print('Sanitization w/ SPL solution and ADP protocol:', SPL_ADP_Client(input_data, lst_k, d, eps, optimal=True)) 
+print('Sanitization w/ SMP solution and ADP protocol:', SMP_ADP_Client(input_data, lst_k, d, eps, optimal=True))
+print('Sanitization w/ RSpFD solution and ADP protocol:', RSpFD_ADP_Client(input_data, lst_k, d, eps, optimal=True))
+
+
 # ## Reading MS-FIMU dataset
 
 # In[3]:
@@ -95,7 +111,7 @@ print('Epsilon values =', lst_eps)
 real_freq = [np.unique(df[att], return_counts=True)[-1] / n for att in attributes]
 
 # Repeat nb_seed times since DP protocols are randomized
-nb_seed = 50
+nb_seed = 30
 
 # Save Averaged Mean Squared Error (MSE_avg) between real and estimated frequencies per seed
 dic_avg_mse = {seed: 
@@ -114,75 +130,75 @@ for seed in range(nb_seed):
     for eps in lst_eps:
         
         # SPL solution
-        spl_reports = [SPL_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
-        spl_est_freq = SPL_GRR_Aggregator(spl_reports, lst_k, d, eps)
-        dic_avg_mse[seed]["SPL_GRR"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
+#         spl_est_freq = SPL_GRR_Aggregator(spl_reports, lst_k, d, eps)
+#         dic_avg_mse[seed]["SPL_GRR"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_UE_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
-        spl_est_freq = SPL_UE_Aggregator(spl_reports, d, eps, optimal=False)
-        dic_avg_mse[seed]["SPL_SUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_UE_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
+#         spl_est_freq = SPL_UE_Aggregator(spl_reports, d, eps, optimal=False)
+#         dic_avg_mse[seed]["SPL_SUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_UE_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
-        spl_est_freq = SPL_UE_Aggregator(spl_reports, d, eps, optimal=True)
-        dic_avg_mse[seed]["SPL_OUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_UE_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
+#         spl_est_freq = SPL_UE_Aggregator(spl_reports, d, eps, optimal=True)
+#         dic_avg_mse[seed]["SPL_OUE"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_LH_Client(input_data, d, eps, optimal=False) for input_data in df.values]
-        spl_est_freq = SPL_LH_Aggregator(spl_reports, lst_k, d, eps, optimal=False)
-        dic_avg_mse[seed]["SPL_BLH"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_LH_Client(input_data, d, eps, optimal=False) for input_data in df.values]
+#         spl_est_freq = SPL_LH_Aggregator(spl_reports, lst_k, d, eps, optimal=False)
+#         dic_avg_mse[seed]["SPL_BLH"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
-        spl_reports = [SPL_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
-        spl_est_freq = SPL_LH_Aggregator(spl_reports, lst_k, d, eps, optimal=True)
-        dic_avg_mse[seed]["SPL_OLH"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+#         spl_reports = [SPL_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
+#         spl_est_freq = SPL_LH_Aggregator(spl_reports, lst_k, d, eps, optimal=True)
+#         dic_avg_mse[seed]["SPL_OLH"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
         
         spl_reports = [SPL_ADP_Client(input_data, lst_k, d, eps) for input_data in df.values]
         spl_est_freq = SPL_ADP_Aggregator(spl_reports, lst_k, d, eps)
         dic_avg_mse[seed]["SPL_ADP"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))    
     
         # SMP solution        
-        smp_reports = [SMP_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
-        smp_est_freq = SMP_GRR_Aggregator(smp_reports, lst_k, d, eps)
-        dic_avg_mse[seed]["SMP_GRR"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
+#         smp_est_freq = SMP_GRR_Aggregator(smp_reports, lst_k, d, eps)
+#         dic_avg_mse[seed]["SMP_GRR"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_UE_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
-        smp_est_freq = SMP_UE_Aggregator(smp_reports, d, eps, optimal=False)
-        dic_avg_mse[seed]["SMP_SUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_UE_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
+#         smp_est_freq = SMP_UE_Aggregator(smp_reports, d, eps, optimal=False)
+#         dic_avg_mse[seed]["SMP_SUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_UE_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
-        smp_est_freq = SMP_UE_Aggregator(smp_reports, d, eps, optimal=True)
-        dic_avg_mse[seed]["SMP_OUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_UE_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
+#         smp_est_freq = SMP_UE_Aggregator(smp_reports, d, eps, optimal=True)
+#         dic_avg_mse[seed]["SMP_OUE"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_LH_Client(input_data, d, eps, optimal=False) for input_data in df.values]
-        smp_est_freq = SMP_LH_Aggregator(smp_reports, lst_k, d, eps, optimal=False)
-        dic_avg_mse[seed]["SMP_BLH"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_LH_Client(input_data, d, eps, optimal=False) for input_data in df.values]
+#         smp_est_freq = SMP_LH_Aggregator(smp_reports, lst_k, d, eps, optimal=False)
+#         dic_avg_mse[seed]["SMP_BLH"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
         
-        smp_reports = [SMP_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
-        smp_est_freq = SMP_LH_Aggregator(smp_reports, lst_k, d, eps, optimal=True)
-        dic_avg_mse[seed]["SMP_OLH"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+#         smp_reports = [SMP_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
+#         smp_est_freq = SMP_LH_Aggregator(smp_reports, lst_k, d, eps, optimal=True)
+#         dic_avg_mse[seed]["SMP_OLH"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
 
         smp_reports = [SMP_ADP_Client(input_data, lst_k, d, eps) for input_data in df.values]
         smp_est_freq = SMP_ADP_Aggregator(smp_reports, lst_k, d, eps)
         dic_avg_mse[seed]["SMP_ADP"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))               
     
         # RSpFD solution        
-        rspfd_reports = [RSpFD_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
-        rspfd_est_freq = RSpFD_GRR_Aggregator(rspfd_reports, lst_k, d, eps)
-        dic_avg_mse[seed]["RSpFD_GRR"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
+#         rspfd_reports = [RSpFD_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
+#         rspfd_est_freq = RSpFD_GRR_Aggregator(rspfd_reports, lst_k, d, eps)
+#         dic_avg_mse[seed]["RSpFD_GRR"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
         
-        rspfd_reports = [RSpFD_UE_zero_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
-        rspfd_est_freq = RSpFD_UE_zero_Aggregator(rspfd_reports, lst_k, d, eps, optimal=False)
-        dic_avg_mse[seed]["RSpFD_SUE_zero"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
+#         rspfd_reports = [RSpFD_UE_zero_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
+#         rspfd_est_freq = RSpFD_UE_zero_Aggregator(rspfd_reports, lst_k, d, eps, optimal=False)
+#         dic_avg_mse[seed]["RSpFD_SUE_zero"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
         
-        rspfd_reports = [RSpFD_UE_rnd_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
-        rspfd_est_freq = RSpFD_UE_rnd_Aggregator(rspfd_reports, lst_k, d, eps, optimal=False)
-        dic_avg_mse[seed]["RSpFD_SUE_rnd"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
+#         rspfd_reports = [RSpFD_UE_rnd_Client(input_data, lst_k, d, eps, optimal=False) for input_data in df.values]
+#         rspfd_est_freq = RSpFD_UE_rnd_Aggregator(rspfd_reports, lst_k, d, eps, optimal=False)
+#         dic_avg_mse[seed]["RSpFD_SUE_rnd"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
         
-        rspfd_reports = [RSpFD_UE_zero_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
-        rspfd_est_freq = RSpFD_UE_zero_Aggregator(rspfd_reports, lst_k, d, eps, optimal=True)
-        dic_avg_mse[seed]["RSpFD_OUE_zero"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
+#         rspfd_reports = [RSpFD_UE_zero_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
+#         rspfd_est_freq = RSpFD_UE_zero_Aggregator(rspfd_reports, lst_k, d, eps, optimal=True)
+#         dic_avg_mse[seed]["RSpFD_OUE_zero"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
         
-        rspfd_reports = [RSpFD_UE_rnd_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
-        rspfd_est_freq = RSpFD_UE_rnd_Aggregator(rspfd_reports, lst_k, d, eps, optimal=True)
-        dic_avg_mse[seed]["RSpFD_OUE_rnd"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
+#         rspfd_reports = [RSpFD_UE_rnd_Client(input_data, lst_k, d, eps, optimal=True) for input_data in df.values]
+#         rspfd_est_freq = RSpFD_UE_rnd_Aggregator(rspfd_reports, lst_k, d, eps, optimal=True)
+#         dic_avg_mse[seed]["RSpFD_OUE_rnd"].append(np.mean([mean_squared_error(real_freq[att], rspfd_est_freq[att]) for att in range(d)]))
         
         rspfd_reports = [RSpFD_ADP_Client(input_data, lst_k, d, eps) for input_data in df.values]
         rspfd_est_freq = RSpFD_ADP_Aggregator(rspfd_reports, lst_k, d, eps)
