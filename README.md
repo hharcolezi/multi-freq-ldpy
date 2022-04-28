@@ -99,7 +99,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
 
 ## Acknowledgments
-The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
+   * The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
+   * Some codes were previously developed/adapted from the [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs) repository. 
 
 ## License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
