@@ -15,30 +15,34 @@ def L_GRR_Client(input_data, k, eps_perm, eps_1):
     :param eps_1: lower bound of privacy guarantee (a single report), thus, eps_1 < eps_perm;
     :return: sanitized value.
     """
-
-    # GRR parameters for round 1
-    p1 = np.exp(eps_perm) / (np.exp(eps_perm) + k - 1)
-    q1 = (1 - p1) / (k - 1)
-
-    # GRR parameters for round 2
-    p2 = (q1 - np.exp(eps_1) * p1) / ((-p1 * np.exp(eps_1)) + k*q1*np.exp(eps_1) - q1*np.exp(eps_1) - p1*(k-1)+q1)
-    q2 = (1 - p2) / (k-1)
     
-    if (np.array([p1, q1, p2, q2]) >= 0).all():
-        pass
-    else: 
-        raise ValueError('Probabilities are negative.')
-
-    # Get epsilon of second round of sanitization
-    eps_sec_round = np.log(p2 / q2)
-
-    # First round of sanitization (permanent memoization) with GRR using user's input_data
-    first_sanitization = GRR_Client(input_data, k, eps_perm)
-
-    # Second round of sanitization with GRR using first_sanitization as input
-    second_sanitization = GRR_Client(first_sanitization, k, eps_sec_round)
+    if eps_1 >= eps_perm:
+        raise ValueError('Please set eps_1 (single report, i.e., lower bound) < eps_perm (infinity reports, i.e., upper bound)')
     
-    return second_sanitization
+    else:
+        # GRR parameters for round 1
+        p1 = np.exp(eps_perm) / (np.exp(eps_perm) + k - 1)
+        q1 = (1 - p1) / (k - 1)
+
+        # GRR parameters for round 2
+        p2 = (q1 - np.exp(eps_1) * p1) / ((-p1 * np.exp(eps_1)) + k*q1*np.exp(eps_1) - q1*np.exp(eps_1) - p1*(k-1)+q1)
+        q2 = (1 - p2) / (k-1)
+        
+        if (np.array([p1, q1, p2, q2]) >= 0).all():
+            pass
+        else: 
+            raise ValueError('Probabilities are negative.')
+
+        # Get epsilon of second round of sanitization
+        eps_sec_round = np.log(p2 / q2)
+
+        # First round of sanitization (permanent memoization) with GRR using user's input_data
+        first_sanitization = GRR_Client(input_data, k, eps_perm)
+
+        # Second round of sanitization with GRR using first_sanitization as input
+        second_sanitization = GRR_Client(first_sanitization, k, eps_sec_round)
+        
+        return second_sanitization
 
 def L_GRR_Aggregator(reports, k, eps_perm, eps_1):
     """

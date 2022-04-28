@@ -17,60 +17,64 @@ def L_SUE_Client(input_data, k, eps_perm, eps_1):
     :param eps_1: lower bound of privacy guarantee (a single report), thus, eps_1 < eps_perm;
     :return: sanitized value.
     """
-
-    # SUE parameters for round 1
-    p1 = np.exp(eps_perm / 2) / (np.exp(eps_perm / 2) + 1)
-    q1 = 1 - p1
-
-    # SUE parameters for round 2
-    p2 = - (np.sqrt((4 * np.exp(7 * eps_perm / 2) - 4 * np.exp(5 * eps_perm / 2) - 4 * np.exp(
-        3 * eps_perm / 2) + 4 * np.exp(eps_perm / 2) + np.exp(4 * eps_perm) + 4 * np.exp(3 * eps_perm) - 10 * np.exp(
-        2 * eps_perm) + 4 * np.exp(eps_perm) + 1) * np.exp(eps_1)) * (np.exp(eps_1) - 1) * (
-                        np.exp(eps_perm) - 1) ** 2 - (
-                        np.exp(eps_1) - np.exp(2 * eps_perm) + 2 * np.exp(eps_perm) - 2 * np.exp(
-                    eps_1 + eps_perm) + np.exp(eps_1 + 2 * eps_perm) - 1) * (
-                        np.exp(3 * eps_perm / 2) - np.exp(eps_perm / 2) + np.exp(eps_perm) - np.exp(
-                    eps_1 + eps_perm / 2) - np.exp(eps_1 + eps_perm) + np.exp(eps_1 + 3 * eps_perm / 2) + np.exp(
-                    eps_1 + 2 * eps_perm) - 1)) / ((np.exp(eps_1) - 1) * (np.exp(eps_perm) - 1) ** 2 * (
-                np.exp(eps_1) - np.exp(2 * eps_perm) + 2 * np.exp(eps_perm) - 2 * np.exp(eps_1 + eps_perm) + np.exp(
-            eps_1 + 2 * eps_perm) - 1))
-    q2 = 1 - p2
-
-    if (np.array([p1, q1, p2, q2]) >= 0).all():
-        pass
+    
+    if eps_1 >= eps_perm:
+        raise ValueError('Please set eps_1 (single report, i.e., lower bound) < eps_perm (infinity reports, i.e., upper bound)')
+    
     else:
-        raise ValueError('Probabilities are negative.')
+        # SUE parameters for round 1
+        p1 = np.exp(eps_perm / 2) / (np.exp(eps_perm / 2) + 1)
+        q1 = 1 - p1
 
-    # Unary encoding
-    input_ue_data = np.zeros(k)
-    if input_data != None:
-        input_ue_data[input_data] = 1
+        # SUE parameters for round 2
+        p2 = - (np.sqrt((4 * np.exp(7 * eps_perm / 2) - 4 * np.exp(5 * eps_perm / 2) - 4 * np.exp(
+            3 * eps_perm / 2) + 4 * np.exp(eps_perm / 2) + np.exp(4 * eps_perm) + 4 * np.exp(3 * eps_perm) - 10 * np.exp(
+            2 * eps_perm) + 4 * np.exp(eps_perm) + 1) * np.exp(eps_1)) * (np.exp(eps_1) - 1) * (
+                            np.exp(eps_perm) - 1) ** 2 - (
+                            np.exp(eps_1) - np.exp(2 * eps_perm) + 2 * np.exp(eps_perm) - 2 * np.exp(
+                        eps_1 + eps_perm) + np.exp(eps_1 + 2 * eps_perm) - 1) * (
+                            np.exp(3 * eps_perm / 2) - np.exp(eps_perm / 2) + np.exp(eps_perm) - np.exp(
+                        eps_1 + eps_perm / 2) - np.exp(eps_1 + eps_perm) + np.exp(eps_1 + 3 * eps_perm / 2) + np.exp(
+                        eps_1 + 2 * eps_perm) - 1)) / ((np.exp(eps_1) - 1) * (np.exp(eps_perm) - 1) ** 2 * (
+                    np.exp(eps_1) - np.exp(2 * eps_perm) + 2 * np.exp(eps_perm) - 2 * np.exp(eps_1 + eps_perm) + np.exp(
+                eps_1 + 2 * eps_perm) - 1))
+        q2 = 1 - p2
 
-    # First round of sanitization (permanent memoization) with SUE using user's input_ue_data
-    first_sanitization = np.zeros(k)
-    for ind in range(k):
-        if input_ue_data[ind] != 1:
-            rnd = np.random.random()
-            if rnd <= q1:
-                first_sanitization[ind] = 1
+        if (np.array([p1, q1, p2, q2]) >= 0).all():
+            pass
         else:
-            rnd = np.random.random()
-            if rnd <= p1:
-                first_sanitization[ind] = 1
+            raise ValueError('Probabilities are negative.')
 
-    # Second round of sanitization with SUE using first_sanitization as input
-    second_sanitization = np.zeros(k)
-    for ind in range(k):
-        if first_sanitization[ind] != 1:
-            rnd = np.random.random()
-            if rnd <= q2:
-                second_sanitization[ind] = 1
-        else:
-            rnd = np.random.random()
-            if rnd <= p2:
-                second_sanitization[ind] = 1
+        # Unary encoding
+        input_ue_data = np.zeros(k)
+        if input_data != None:
+            input_ue_data[input_data] = 1
 
-    return second_sanitization
+        # First round of sanitization (permanent memoization) with SUE using user's input_ue_data
+        first_sanitization = np.zeros(k)
+        for ind in range(k):
+            if input_ue_data[ind] != 1:
+                rnd = np.random.random()
+                if rnd <= q1:
+                    first_sanitization[ind] = 1
+            else:
+                rnd = np.random.random()
+                if rnd <= p1:
+                    first_sanitization[ind] = 1
+
+        # Second round of sanitization with SUE using first_sanitization as input
+        second_sanitization = np.zeros(k)
+        for ind in range(k):
+            if first_sanitization[ind] != 1:
+                rnd = np.random.random()
+                if rnd <= q2:
+                    second_sanitization[ind] = 1
+            else:
+                rnd = np.random.random()
+                if rnd <= p2:
+                    second_sanitization[ind] = 1
+
+        return second_sanitization
 
 def L_SUE_Aggregator(ue_reports, eps_perm, eps_1):
 
