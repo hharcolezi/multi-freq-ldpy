@@ -31,7 +31,7 @@ Multi-Freq-LDPy covers the following tasks:
    * Generalized Randomized Response (GRR): ```multi_freq_ldpy.pure_frequency_oracles.GRR```
    * Symmetric/Optimized Unary Encoding (UE): ```multi_freq_ldpy.pure_frequency_oracles.UE```
    * Binary/Optimized Local Hashing (LH): ```multi_freq_ldpy.pure_frequency_oracles.LH```
-   * Adaptive (ADP) protocol, i.e., GRR or Optimized UE depending on variance value: ```multi_freq_ldpy.pure_frequency_oracles.ADP```
+   * Adaptive (ADP) protocol, i.e., GRR or Optimized UE: ```multi_freq_ldpy.pure_frequency_oracles.ADP```
 
 2. **Multidimensional Frequency Estimation** -- Three solutions for frequency estimation of multiple attributes from [Random Sampling Plus Fake Data: Multidimensional Frequency Estimates With Local Differential Privacy](https://arxiv.org/abs/2109.07269) with their respective frequency oracles (GRR, UE-based, and ADP), namely:
    * Splitting (SPL) the privacy budget: ```multi_freq_ldpy.mdim_freq_est.SPL_solution```
