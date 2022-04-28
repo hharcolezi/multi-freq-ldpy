@@ -35,7 +35,7 @@ def L_OUE_Client(input_data, k, eps_perm, eps_1):
         if (np.array([p1, q1, p2, q2]) >= 0).all():
             pass
         else:
-            raise ValueError('Probabilities are negative.')
+            raise ValueError('Probabilities are negative, selecting eps_1 << eps_perm might probably solve it.')
 
         # Unary encoding
         input_ue_data = np.zeros(k)
