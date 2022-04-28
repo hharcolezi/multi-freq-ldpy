@@ -4,6 +4,8 @@ from multi_freq_ldpy.pure_frequency_oracles.GRR import GRR_Client
 # [1] Arcolezi et al (2021) "Improving the Utility of Locally Differentially Private Protocols for Longitudinal and Multidimensional Frequency Estimates" (arXiv:2111.04636).
 # [2] Kairouz, Bonawitz, and Ramage (2016) "Discrete distribution estimation under local privacy" (ICML)
 
+# The analytical analysis of how to calculate parameters (p1, q2, p2, q2) is from: https://github.com/hharcolezi/ldp-protocols-mobility-cdrs/blob/main/papers/%5B4%5D/1_ALLOMFREE_Analysis.ipynb
+
 def L_GRR_Client(input_data, k, eps_perm, eps_1):
 
     """
@@ -31,7 +33,7 @@ def L_GRR_Client(input_data, k, eps_perm, eps_1):
         if (np.array([p1, q1, p2, q2]) >= 0).all():
             pass
         else: 
-            raise ValueError('Probabilities are negative.')
+            raise ValueError('Probabilities are negative, selecting eps_1 << eps_perm might probably solve it.')
 
         # Get epsilon of second round of sanitization
         eps_sec_round = np.log(p2 / q2)

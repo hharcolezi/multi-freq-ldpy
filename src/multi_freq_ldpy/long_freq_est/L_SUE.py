@@ -5,6 +5,8 @@ from numba import jit
 # [2] Erlingsson, Pihur, and Korolova (2014) "RAPPOR: Randomized aggregatable privacy-preserving ordinal response" (ACM CCS).
 # [3] Wang et al (2017) "Locally differentially private protocols for frequency estimation" (USENIX Security).
 
+# The analytical analysis of how to calculate parameters (p1, q2, p2, q2) is from: https://github.com/hharcolezi/ldp-protocols-mobility-cdrs/blob/main/papers/%5B4%5D/1_ALLOMFREE_Analysis.ipynb
+
 @jit(nopython=True)
 def L_SUE_Client(input_data, k, eps_perm, eps_1):
 

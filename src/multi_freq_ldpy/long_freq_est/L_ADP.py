@@ -5,6 +5,8 @@ from multi_freq_ldpy.long_freq_est.Variance_LONG_PURE import VAR_Long_Pure
 
 # [1] Arcolezi et al (2021) "Improving the Utility of Locally Differentially Private Protocols for Longitudinal and Multidimensional Frequency Estimates" (arXiv:2111.04636).
 
+# The analytical analysis of how to calculate parameters (p1, q2, p2, q2) is from: https://github.com/hharcolezi/ldp-protocols-mobility-cdrs/blob/main/papers/%5B4%5D/1_ALLOMFREE_Analysis.ipynb
+
 def L_ADP_Client(input_data, k, eps_perm, eps_1):
 
     """
