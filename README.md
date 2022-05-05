@@ -1,6 +1,8 @@
-# Multi-Freq-LDPy
+# Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python
 
 Multi-Freq-LDPy is a Python library for performing multiple frequency estimation tasks (multidimensional, longitudinal, and both) under local differential privacy (LDP) guarantees. The main goal is to provide an easy-to-use and fast execution toolkit to benchmark and experiment with state-of-the-art solutions and LDP protocols.
+
+Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch/c3hhQYVYNDi) and [Slide_Presentation](http://hharcolezi.github.io/files/2022_Multi_Freq_LDPy_Presentation.pdf) of our package.
 
 ## Installation
 
@@ -67,8 +69,8 @@ epsilon_1 = 0.5 * epsilon_perm # single report privacy guarantee, i.e., lower bo
 n = int(1e6) # number of users
 k = 5 # attribute's domain size
 
-# Simulation dataset where every user has a number between [0-5) with 1,000,000 users
-data = [np.random.randint(k) for _ in range(n)]
+# Simulation dataset where every user has a number between [0-k) with n users
+data = np.random.randint(k, size=n)
 
 # Simulation of client-side
 l_sue_reports = [L_SUE_Client(input_data, k, epsilon_perm, epsilon_1) for input_data in data]
@@ -87,7 +89,6 @@ plt.bar(x_axis - barwidth/2, real_freq, label='Real Freq', width=barwidth)
 plt.bar(x_axis + barwidth/2 , l_sue_est_freq, label='Est Freq: L-SUE', width=barwidth)
 plt.ylabel('Normalized Frequency')
 plt.xlabel('Domain values')
-plt.xticks(np.arange(0, k, 1), np.arange(1, k+1, 1))
 plt.legend(loc='upper right', bbox_to_anchor=(1.015, 1.15))
 plt.show();
 ```
@@ -100,7 +101,7 @@ For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.i
 
 ## Acknowledgments
    * The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
-   * Some codes were previously developed/adapted from the [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs) repository. 
+   * Some codes were adapted from our [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs) repository. 
 
 ## License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
