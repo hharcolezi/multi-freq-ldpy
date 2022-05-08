@@ -2,7 +2,21 @@
 
 Multi-Freq-LDPy is a Python library for performing multiple frequency estimation tasks (multidimensional, longitudinal, and both) under local differential privacy (LDP) guarantees. The main goal is to provide an easy-to-use and fast execution toolkit to benchmark and experiment with state-of-the-art solutions and LDP protocols.
 
-Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch/c3hhQYVYNDi) and [Slide_Presentation](http://hharcolezi.github.io/files/2022_Multi_Freq_LDPy_Presentation.pdf) of our package.
+Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch/c3hhQYVYNDi), [Slide_Presentation](http://hharcolezi.github.io/files/2022_Multi_Freq_LDPy_Presentation.pdf), and [arXived Demonstration Paper](https://arxiv.org/abs/2205.02648) of our package.
+
+If our codes and work are useful to you, we would appreciate a reference to:
+
+```bash
+@misc{Arcolezi2022,
+  doi = {10.48550/ARXIV.2205.02648},
+  url = {https://arxiv.org/abs/2205.02648},
+  author = {Arcolezi,  Héber H. and Couchot,  Jean-Fran\c{c}ois and Gambs,  Sébastien and Palamidessi,  Catuscia and Zolfaghari,  Majid},
+  title = {Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
+}
+```
 
 ## Installation
 
