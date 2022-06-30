@@ -6,15 +6,12 @@ Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch
 
 If our codes and work are useful to you, we would appreciate a reference to:
 
-```bash
-@misc{Arcolezi2022,
-  doi = {10.48550/ARXIV.2205.02648},
-  url = {https://arxiv.org/abs/2205.02648},
-  author = {Arcolezi,  Héber H. and Couchot,  Jean-Fran\c{c}ois and Gambs,  Sébastien and Palamidessi,  Catuscia and Zolfaghari,  Majid},
-  title = {Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+```
+@article{arcolezi2022multi,
+  title={Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
+  author={Arcolezi, H{\'e}ber H and Couchot, Jean-Fran{\c{c}}ois and Gambs, S{\'e}bastien and Palamidessi, Catuscia and Zolfaghari, Majid},
+  journal={arXiv preprint arXiv:2205.02648},
+  year={2022}
 }
 ```
 
@@ -28,13 +25,13 @@ pip install multi-freq-ldpy
 
 To ensure you use the [latest version](https://pypi.org/project/multi-freq-ldpy/).
 
-```bash
+```
 pip install multi-freq-ldpy --upgrade
 ```
 
 Multi-Freq-LDPy requires the following Python packages.
 
-```bash
+```
 numpy
 numba
 xxhash
@@ -108,7 +105,7 @@ plt.show();
 ```
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Multi-Freq-LDPy is a work in progress, and we expect to release new versions frequently, incorporating feedback and code contributions from the community. Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Contact
 For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
