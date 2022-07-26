@@ -28,37 +28,39 @@ from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import LabelEncoder
 
 
-# ## Usage Example
-
-# In[22]:
-
-
-k = 10 # number of values
-input_data = 2 # real input value
-eps_perm = 2 # epsilon infinity (infinity reports -- upper bound)
-eps_1 = 0.5 # epsilon 1 (single report -- lower bound)
-
-print('Real value:', input_data)
-print('Sanitization w/ L-GRR protocol:', L_GRR_Client(input_data, k, eps_perm, eps_1)) 
-print('Sanitization w/ L-SUE protocol:', L_SUE_Client(input_data, k, eps_perm, eps_1))
-print('Sanitization w/ L-OSUE protocol:', L_OSUE_Client(input_data, k, eps_perm, eps_1))
-
-
 # ## Importing Longitudinal Protocols from multi_freq_ldpy
 
 # In[2]:
 
 
-from multi_freq_ldpy.long_freq_est.L_GRR import *
+from multi_freq_ldpy.long_freq_est.L_GRR import L_GRR_Client, L_GRR_Aggregator
 from multi_freq_ldpy.long_freq_est.L_OUE import *
 from multi_freq_ldpy.long_freq_est.L_OSUE import *
 from multi_freq_ldpy.long_freq_est.L_SUE import *
 from multi_freq_ldpy.long_freq_est.L_SOUE import *
+from multi_freq_ldpy.long_freq_est.dBitFlipPM import *
+
+
+# ## Usage Example
+
+# In[3]:
+
+
+k = 10 # number of values
+input_data = 2 # real input value
+eps_perm = 1 # epsilon infinity (infinity reports -- upper bound)
+eps_1 = 0.5 # epsilon 1 (single report -- lower bound)
+
+print('Real value:', input_data)
+print('Sanitization w/ L-GRR protocol:', L_GRR_Client(input_data, k, eps_perm, eps_1)) 
+print('Sanitization w/ L-SUE protocol:', L_SUE_Client(input_data, k, eps_perm, eps_1))
+print('Sanitization w/ L-OUE protocol:', L_SOUE_Client(input_data, k, eps_perm, eps_1))
+print('Sanitization w/ dBitFlipPM protocol:', dBitFlipPM_Client(input_data, k, k, k, eps_perm))
 
 
 # ## Reading Adult dataset with only 'age' attribute
 
-# In[3]:
+# In[4]:
 
 
 df = pd.read_csv('datasets/db_adults.csv', usecols=['age'])
@@ -67,7 +69,7 @@ df
 
 # ## Encoding values
 
-# In[4]:
+# In[5]:
 
 
 LE = LabelEncoder()
@@ -78,7 +80,7 @@ df
 
 # ## Static Parameteres
 
-# In[5]:
+# In[6]:
 
 
 # number of users (n)
@@ -88,6 +90,13 @@ print('Number of Users =',n)
 # attribute's domain size
 k = len(set(df['age']))
 print("\nAttribute's domain size =", k)
+
+print('\ndBitFlipPM parameters')
+b = k # Number of buckets <= k
+print("Number of bukects b:", b)
+
+d_bits = b # Number of bits each user sample <=b
+print("Number of bits d_bits:", d_bits)
 
 print("\nPrivacy guarantees:")
 
@@ -102,7 +111,7 @@ print("List of epsilon_1 =", lst_eps_1)
 
 # ## Comparison of longitudinal protocols
 
-# In[6]:
+# In[7]:
 
 
 # Real normalized frequency
@@ -113,11 +122,13 @@ nb_seed = 30
 
 # Save Mean Squared Error (MSE) between real and estimated frequencies per seed
 dic_mse = {seed: 
-               {"L_GRR": [],
-               "L_OUE": [],
-               "L_OSUE": [],
-               "L_SUE": [],
-               "L_SOUE": [],
+               {
+                "L_GRR": [],
+                "L_OUE": [],
+                "L_OSUE": [],
+                "L_SUE": [],
+                "L_SOUE": [],
+                "dBitFlipPM": [],
                } 
                for seed in range(nb_seed)
           }
@@ -155,12 +166,17 @@ for seed in range(nb_seed):
         l_soue_reports = [L_SOUE_Client(input_data, k, eps_perm, eps_1) for input_data in df['age']]
         l_soue_est_freq = L_SOUE_Aggregator(l_soue_reports, eps_perm, eps_1)
         dic_mse[seed]["L_SOUE"].append(mean_squared_error(real_freq, l_soue_est_freq))
+        
+        # dBitFlipPM protocol
+        dbitflip_reports = [dBitFlipPM_Client(input_data, k, b, d_bits, eps_perm) for input_data in df['age']]
+        dbitflip_est_freq = dBitFlipPM_Aggregator(dbitflip_reports, b, d_bits, eps_perm)
+        dic_mse[seed]["dBitFlipPM"].append(mean_squared_error(real_freq, dbitflip_est_freq))
 print('That took {} seconds'.format(time.time() - starttime))        
 
 
 # ## Plotting metrics results
 
-# In[7]:
+# In[8]:
 
 
 plt.figure(figsize=(8,5))
@@ -170,6 +186,7 @@ plt.plot(np.mean([dic_mse[seed]["L_OUE"] for seed in range(nb_seed)], axis=0), l
 plt.plot(np.mean([dic_mse[seed]["L_OSUE"] for seed in range(nb_seed)], axis=0), label='L_OSUE',marker='s',linestyle='dotted')
 plt.plot(np.mean([dic_mse[seed]["L_SUE"] for seed in range(nb_seed)], axis=0), label='L_SUE', marker='D', linestyle=(0, (3, 10, 1, 10)))
 plt.plot(np.mean([dic_mse[seed]["L_SOUE"] for seed in range(nb_seed)], axis=0), label='L_SOUE',marker='d',linestyle=(0, (5, 10)))
+plt.plot(np.mean([dic_mse[seed]["dBitFlipPM"] for seed in range(nb_seed)], axis=0), label='dBitFlipPM',marker='X',linestyle=(0, (3, 10, 1, 10)))
 
 plt.yscale('log')
 plt.xlabel('$\epsilon_{perm}$')
@@ -181,7 +198,7 @@ plt.show()
 
 # ## Example of Real vs Estimated Freqencies
 
-# In[8]:
+# In[9]:
 
 
 plt.figure(figsize=(12, 5))
@@ -190,7 +207,7 @@ barwidth = 0.4
 x_axis = np.arange(k)
 
 plt.bar(x_axis - barwidth, real_freq, label='Real Freq', width=barwidth)
-plt.bar(x_axis, l_osue_est_freq, label='Est Freq: L_OSUE', width=barwidth)
+plt.bar(x_axis, dbitflip_est_freq, label='Est Freq: dBitFlipPM', width=barwidth)
 plt.ylabel('Normalized Frequency')
 plt.xlabel('Age attribute with domain size = {}'.format(k))
 plt.legend()
