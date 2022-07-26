@@ -16,7 +16,7 @@ def L_OUE_Client(input_data, k, eps_perm, eps_1):
     :param k: attribute's domain size;
     :param eps_perm: upper bound of privacy guarantee (infinity reports);
     :param eps_1: lower bound of privacy guarantee (a single report), thus, eps_1 < eps_perm;
-    :return: sanitized value or UE vector.
+    :return: sanitized UE vector.
     """
     if eps_1 >= eps_perm:
         raise ValueError('Please set eps_1 (single report, i.e., lower bound) < eps_perm (infinity reports, i.e., upper bound)')
