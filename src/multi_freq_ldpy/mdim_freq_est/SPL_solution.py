@@ -3,6 +3,7 @@ from multi_freq_ldpy.pure_frequency_oracles.GRR import GRR_Client, GRR_Aggregato
 from multi_freq_ldpy.pure_frequency_oracles.UE import UE_Client, UE_Aggregator
 from multi_freq_ldpy.pure_frequency_oracles.ADP import ADP_Client, ADP_Aggregator
 from multi_freq_ldpy.pure_frequency_oracles.LH import LH_Client, LH_Aggregator
+from multi_freq_ldpy.pure_frequency_oracles.SS import SS_Client, SS_Aggregator
 
 # [1] Kairouz, Bonawitz, and Ramage (2016) "Discrete distribution estimation under local privacy" (ICML)
 # [2] Erlingsson, Pihur, and Korolova (2014) "RAPPOR: Randomized aggregatable privacy-preserving ordinal response" (ACM CCS).
