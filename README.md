@@ -38,7 +38,7 @@ xxhash
 ```
 
 ## Content
-Multi-Freq-LDPy covers the following tasks. 
+Multi-Freq-LDPy and its modules are structured as follows. 
 
 ```
 multi-freq-ldpy package
