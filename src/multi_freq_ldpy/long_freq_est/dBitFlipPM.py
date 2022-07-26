@@ -4,7 +4,7 @@ from numba import jit
 # [1] Ding, Kulkarni, and Yekhanin (2017) "Collecting telemetry data privately." (NeurIPS).
 
 @jit(nopython=True)
-def dBitFlipPM_Client(input_data, k, b, d, eps_perm):
+def dBitFlipPM_Client(input_data, k, b, d_bits, eps_perm):
     
     """
     dBitFlipPM [1] protocol that applies a single round of sanitization (permanent memoization).
@@ -12,7 +12,7 @@ def dBitFlipPM_Client(input_data, k, b, d, eps_perm):
     :param input_data: user's true value;
     :param k: attribute's domain size;
     :param b: new domain size to map k to b buckets;
-    :param d: number of bits to report;
+    :param d_bits: number of bits to report;
     :param eps_perm: upper bound of privacy guarantee;
     :return: sanitized UE vector.
     """
@@ -24,8 +24,8 @@ def dBitFlipPM_Client(input_data, k, b, d, eps_perm):
     # calculate bucket size
     bucket_size = k / b
     
-    # select d random bits j_1, j_2, ..., j_d (without replacement)
-    j = np.random.choice(np.arange(b), size=d, replace=False)
+    # select d_bits random bits j_1, j_2, ..., j_d (without replacement)
+    j = np.random.choice(np.arange(b), size=d_bits, replace=False)
         
     # calculate the buck number of user's value
     bucketized_data = int(input_data / bucket_size)
@@ -47,13 +47,13 @@ def dBitFlipPM_Client(input_data, k, b, d, eps_perm):
     
     return permanent_sanitization
 
-def dBitFlipPM_Aggregator(reports, b, d, eps_perm):
+def dBitFlipPM_Aggregator(reports, b, d_bits, eps_perm):
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) with post-processing to ensure non-negativity.
 
     :param reports: list of all dBitFlipPM sanitized UE vectors;
     :param b: new domain size to map k to b buckets;
-    :param d: number of bits to report;
+    :param d_bits: number of bits to report;
     :param eps_perm: upper bound of privacy guarantee (infinity reports);
     :return: normalized frequency (histogram) estimation.
     """
@@ -68,7 +68,7 @@ def dBitFlipPM_Aggregator(reports, b, d, eps_perm):
         for bi in reports:
             if bi[v] >= 0: # only the sampled bits
                 h += (bi[v] * (np.exp(eps_perm / 2) + 1) - 1) / (np.exp(eps_perm / 2) - 1)
-        est_freq.append(h * b / (len(reports) * d ))
+        est_freq.append(h * b / (len(reports) * d_bits ))
     
     # Ensure non-negativity of estimated frequency
     est_freq = np.array(est_freq).clip(0)
