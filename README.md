@@ -45,19 +45,21 @@ multi-freq-ldpy package
 |
 |- pure_frequency_oracles (Single Frequency Estimation)
 |  |- GRR (Generalized Randomized Response[1,2] a.k.a. k-RR or Direct Encoding)
-|  |- SUE (Symmetric Unary Encoding[3] a.k.a. Basic One-Time RAPPOR[11])
-|  |- OUE (Optimized Unary Encoding[3])
-|  |- BLH (Binary Local Hashing[3,4])
-|  |- OLH (Optimized Local Hashing[3])
+|  |- UE (Unary Encoding)
+|  |  |- SUE (Symmetric UE[3] a.k.a. Basic One-Time RAPPOR[11])
+|  |  |- OUE (Optimized UE[3])
+|  |- LH (Local Hashing)
+|  |  |- BLH (Binary LH[3,4])
+|  |  |- OLH (Optimized LH[3])
 |  |- SS (Subset Selection[5,6])
 |  |- ADP (Adaptive, i.e., GRR or OUE)
 |
 |- mdim_freq_est (Multidimensional Frequency Estimation)
-|  |- Splitting solution (SPL_Solution[7,8]): Splits the privacy budget and sanitizes using pure_frequency_oracles LDP protocols
+|  |- SPL_solution (Splitting solution[7,8]): Splits the privacy budget and sanitizes using pure_frequency_oracles LDP protocols
 |  |  |- SPL_GRR, SPL_SUE, SPL_OUE, SPL_BLH, SPL_OLH, SPL_SS, SPL_ADP
-|  |- Random Sampling solution (SMP_Solution[7,8]): Samples a single attribute and sanitizes using pure_frequency_oracles LDP protocols
+|  |- SMP_solution (Random Sampling solution[7,8]): Samples a single attribute and sanitizes using pure_frequency_oracles LDP protocols
 |  |  |- SMP_GRR, SMP_SUE, SMP_OUE, SMP_BLH, SMP_OLH, SMP_SS, SMP_ADP
-|  |- Random Sampling + Fake Data solution (RSpFD_Solution[9]): Samples a single attribute to sanitize but also generates fake data for each non-sampled attribute
+|  |- RSpFD_solution (Random Sampling + Fake Data solution[9]): Samples a single attribute to sanitize but also generates fake data for each non-sampled attribute
 |  |  |- RSpFD_GRR (fake data generated following domain size)
 |  |  |- RSpFD_SUE_zero (fake data generated with SUE applied to a zero-vector)
 |  |  |- RSpFD_SUE_rnd (fake data generated with SUE applied to a random bit-vector)
