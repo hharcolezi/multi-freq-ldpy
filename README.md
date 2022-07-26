@@ -59,10 +59,10 @@ multi-freq-ldpy package
 |  |  |- SMP_GRR, SMP_SUE, SMP_OUE, SMP_BLH, SMP_OLH, SMP_SS, SMP_ADP
 |  |- Random Sampling + Fake Data solution (RSpFD_Solution[9]): Samples a single attribute to sanitize but also generates fake data for each non-sampled attribute
 |  |  |- RSpFD_GRR (fake data generated following domain size)
-|  |  |- RSpFD_SUE_z (fake data generated with SUE applied to a zero-vector)
-|  |  |- RSpFD_SUE_r (fake data generated with SUE applied to a random bit-vector)
-|  |  |- RSpFD_OUE_z (fake data generated with OUE applied to a zero-vector)
-|  |  |- RSpFD_OUE_r (fake data generated with OUE applied to a random bit-vector)
+|  |  |- RSpFD_SUE_zero (fake data generated with SUE applied to a zero-vector)
+|  |  |- RSpFD_SUE_rnd (fake data generated with SUE applied to a random bit-vector)
+|  |  |- RSpFD_OUE_zero (fake data generated with OUE applied to a zero-vector)
+|  |  |- RSpFD_OUE_rnd (fake data generated with OUE applied to a random bit-vector)
 |  |  |- RSpFD_ADP (RSpFD_GRR or RSpFD_OUE_z)
 |
 |- long_freq_est (Longitudinal Single Frequency Estimation)
