@@ -33,15 +33,16 @@ from sklearn.preprocessing import LabelEncoder
 # In[2]:
 
 
-from multi_freq_ldpy.pure_frequency_oracles.GRR import *
+from multi_freq_ldpy.pure_frequency_oracles.GRR import GRR_Client, GRR_Aggregator
 from multi_freq_ldpy.pure_frequency_oracles.UE import *
 from multi_freq_ldpy.pure_frequency_oracles.ADP import *
 from multi_freq_ldpy.pure_frequency_oracles.LH import *
+from multi_freq_ldpy.pure_frequency_oracles.SS import *
 
 
 # ## Usage Example
 
-# In[28]:
+# In[3]:
 
 
 k = 10 # number of values
@@ -52,11 +53,12 @@ print('Real value:', input_data)
 print('Sanitization w/ GRR protocol:', GRR_Client(input_data, k, eps)) 
 print('Sanitization w/ OUE protocol:', UE_Client(input_data, k, eps, optimal=True))
 print('Sanitization w/ OLH protocol:', LH_Client(input_data, eps, optimal=True)) # sanitized value, seed used to hash
+print('Sanitization w/ SS protocol:', SS_Client(input_data, k, eps)) # set of sanitized values
 
 
 # ## Reading Adult dataset with only 'age' attribute
 
-# In[3]:
+# In[4]:
 
 
 df = pd.read_csv('datasets/db_adults.csv', usecols=['age'])
@@ -65,7 +67,7 @@ df
 
 # ## Encoding values
 
-# In[4]:
+# In[5]:
 
 
 LE = LabelEncoder()
@@ -76,7 +78,7 @@ df
 
 # ## Static Parameteres
 
-# In[5]:
+# In[6]:
 
 
 # number of users (n)
@@ -96,7 +98,7 @@ print('Epsilon values =', lst_eps)
 
 # ## Comparison of frequency oracles
 
-# In[6]:
+# In[7]:
 
 
 # Real normalized frequency
@@ -107,11 +109,13 @@ nb_seed = 30
 
 # Save Mean Squared Error (MSE) between real and estimated frequencies per seed
 dic_mse = {seed: 
-               {"GRR": [],
-               "SUE": [],
-               "OUE": [],
-               "BLH": [],
-               "OLH": [],
+               {
+                "GRR": [],
+                "SUE": [],
+                "OUE": [],
+                "BLH": [],
+                "OLH": [],
+                "SS":  [],
                } 
                for seed in range(nb_seed)
           }
@@ -146,12 +150,18 @@ for seed in range(nb_seed):
         olh_reports = [LH_Client(input_data, eps, optimal=True) for input_data in df['age']]
         olh_est_freq = LH_Aggregator(olh_reports, k, eps, optimal=True)
         dic_mse[seed]["OLH"].append(mean_squared_error(real_freq, olh_est_freq))
+        
+        # SS protocol       
+        ss_reports = [SS_Client(input_data, k, eps) for input_data in df['age']]
+        ss_est_freq = SS_Aggregator(ss_reports, k, eps)
+        dic_mse[seed]["SS"].append(mean_squared_error(real_freq, ss_est_freq))
+        
 print('That took {} seconds'.format(time.time() - starttime))        
 
 
 # ## Plotting metrics results
 
-# In[7]:
+# In[8]:
 
 
 plt.figure(figsize=(8,5))
@@ -161,6 +171,7 @@ plt.plot(np.mean([dic_mse[seed]["SUE"] for seed in range(nb_seed)], axis=0), lab
 plt.plot(np.mean([dic_mse[seed]["OUE"] for seed in range(nb_seed)], axis=0), label='OUE',marker='s',linestyle='dotted')
 plt.plot(np.mean([dic_mse[seed]["BLH"] for seed in range(nb_seed)], axis=0), label='BLH', marker='D', linestyle=(0, (3, 10, 1, 10)))
 plt.plot(np.mean([dic_mse[seed]["OLH"] for seed in range(nb_seed)], axis=0), label='OLH',marker='d',linestyle=(0, (5, 10)))
+plt.plot(np.mean([dic_mse[seed]["SS"] for seed in range(nb_seed)], axis=0), label='SS',marker='X',linestyle=(0, (3, 10, 1, 10)))
 
 plt.yscale('log')
 plt.xlabel('$\epsilon$')
@@ -172,7 +183,7 @@ plt.show()
 
 # ## Example of Real vs Estimated Freqencies
 
-# In[8]:
+# In[10]:
 
 
 plt.figure(figsize=(12, 5))
@@ -181,7 +192,7 @@ barwidth = 0.4
 x_axis = np.arange(k)
 
 plt.bar(x_axis - barwidth, real_freq, label='Real Freq', width=barwidth)
-plt.bar(x_axis, oue_est_freq, label='Est Freq: OUE', width=barwidth)
+plt.bar(x_axis, ss_est_freq, label='Est Freq: SS', width=barwidth)
 plt.ylabel('Normalized Frequency')
 plt.xlabel('Age attribute with domain size = {}'.format(k))
 plt.legend()
