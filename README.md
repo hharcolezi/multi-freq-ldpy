@@ -17,13 +17,13 @@ If our codes and work are useful to you, we would appreciate a reference to:
 
 ## Installation
 
-Please use the package manager [pip](https://pip.pypa.io/en/stable/) to install multi-freq-ldpy.
+Please use the package manager [pip](https://pypi.org/project/multi-freq-ldpy/) to install multi-freq-ldpy.
 
 ```bash
 pip install multi-freq-ldpy
 ```
 
-To ensure you use the [latest version](https://pypi.org/project/multi-freq-ldpy/).
+To ensure you use the latest version.
 
 ```
 pip install multi-freq-ldpy --upgrade
@@ -38,30 +38,48 @@ xxhash
 ```
 
 ## Content
-Multi-Freq-LDPy covers the following tasks: 
+Multi-Freq-LDPy covers the following tasks. 
 
-1. **Single Frequency Estimation** -- The best-performing frequency oracles from [Locally Differentially Private Protocols for Frequency Estimation](https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/wang-tianhao), namely:
-   * Generalized Randomized Response (GRR): ```multi_freq_ldpy.pure_frequency_oracles.GRR```
-   * Symmetric/Optimized Unary Encoding (UE): ```multi_freq_ldpy.pure_frequency_oracles.UE```
-   * Binary/Optimized Local Hashing (LH): ```multi_freq_ldpy.pure_frequency_oracles.LH```
-   * Adaptive (ADP) protocol, i.e., GRR or Optimized UE: ```multi_freq_ldpy.pure_frequency_oracles.ADP```
-
-2. **Multidimensional Frequency Estimation** -- Three solutions for frequency estimation of multiple attributes from [Random Sampling Plus Fake Data: Multidimensional Frequency Estimates With Local Differential Privacy](https://arxiv.org/abs/2109.07269) with their respective frequency oracles (GRR, UE-based, and ADP), namely:
-   * Splitting (SPL) the privacy budget: ```multi_freq_ldpy.mdim_freq_est.SPL_solution```
-   * Random Sampling (SMP) a single attribute: ```multi_freq_ldpy.mdim_freq_est.SMP_solution```
-   * Random Sampling + Fake Data (RS+FD) that samples a single attribute but also generates fake data for each non-sampled attribute: ```multi_freq_ldpy.mdim_freq_est.RSpFD_solution```
-
-3. **Longitudinal Single Frequency Estimation** -- All longitudinal LDP protocols from [Improving the Utility of Locally Differentially Private Protocols for Longitudinal and Multidimensional Frequency Estimates](https://arxiv.org/abs/2111.04636) following the memoization-based framework from [RAPPOR](https://dl.acm.org/doi/10.1145/2660267.2660348), namely:
-   * Longitudinal GRR (L-GRR): ```multi_freq_ldpy.long_freq_est.L_GRR```
-   * Longitudinal OUE (L-OUE): ```multi_freq_ldpy.long_freq_est.L_OUE```
-   * Longitudinal OUE-SUE (L-OSUE): ```multi_freq_ldpy.long_freq_est.L_OSUE```
-   * Longitudinal SUE (L-SUE): ```multi_freq_ldpy.long_freq_est.L_SUE```
-   * Longitudinal SUE-OUE (L-SOUE): ```multi_freq_ldpy.long_freq_est.L_SOUE```
-   * Longitudinal ADP (L-ADP), i.e., L-GRR or L-OSUE: ```multi_freq_ldpy.long_freq_est.L_ADP```
-
-4. **Longitudinal Multidimensional Frequency Estimation** -- Both SPL and SMP solutions with all longitudinal protocols from previous point 3, namely:
-   * Longitudinal SPL (L_SPL): ```multi_freq_ldpy.long_mdim_freq_est.L_SPL```
-   * Longitudinal SMP (L_SMP): ```multi_freq_ldpy.long_mdim_freq_est.L_SMP```
+```
+multi-freq-ldpy package
+|
+|- pure_frequency_oracles (Single Frequency Estimation)
+|  |- GRR (Generalized Randomized Response[1,2] a.k.a. k-RR or Direct Encoding)
+|  |- SUE (Symmetric Unary Encoding[3] a.k.a. Basic One-Time RAPPOR[11])
+|  |- OUE (Optimized Unary Encoding[3])
+|  |- BLH (Binary Local Hashing[3,4])
+|  |- OLH (Optimized Local Hashing[3])
+|  |- SS (Subset Selection[5,6])
+|  |- ADP (Adaptive, i.e., GRR or OUE)
+|
+|- mdim_freq_est (Multidimensional Frequency Estimation)
+|  |- Splitting solution (SPL_Solution[7,8]): Splits the privacy budget and sanitizes using pure_frequency_oracles LDP protocols
+|  |  |- SPL_GRR, SPL_SUE, SPL_OUE, SPL_BLH, SPL_OLH, SPL_SS, SPL_ADP
+|  |- Random Sampling solution (SMP_Solution[7,8]): Samples a single attribute and sanitizes using pure_frequency_oracles LDP protocols
+|  |  |- SMP_GRR, SMP_SUE, SMP_OUE, SMP_BLH, SMP_OLH, SMP_SS, SMP_ADP
+|  |- Random Sampling + Fake Data solution (RSpFD_Solution[9]): Samples a single attribute to sanitize but also generates fake data for each non-sampled attribute
+|  |  |- RSpFD_GRR (fake data generated following domain size)
+|  |  |- RSpFD_SUE_z (fake data generated with SUE applied to a zero-vector)
+|  |  |- RSpFD_SUE_r (fake data generated with SUE applied to a random bit-vector)
+|  |  |- RSpFD_OUE_z (fake data generated with OUE applied to a zero-vector)
+|  |  |- RSpFD_OUE_r (fake data generated with OUE applied to a random bit-vector)
+|  |  |- RSpFD_ADP (RSpFD_GRR or RSpFD_OUE_z)
+|
+|- long_freq_est (Longitudinal Single Frequency Estimation)
+|  |- L_GRR (Longitudinal GRR[10])
+|  |- L_OUE (Longitudinal OUE[10])
+|  |- L_OSUE (Longitudinal OUE-SUE[10])
+|  |- L_SUE (Longitudinal SUE[10], a.k.a. Basic RAPPOR[11])
+|  |- L_SOUE (Longitudinal SUE-OUE[10])
+|  |- L_ADP (Longitudinal ADP[10], i.e., L-GRR or L-OSUE)
+|  |- dBitFlipPM[12]
+|
+|- long_mdim_freq_est (Longitudinal Multidimensional Frequency Estimation)
+|  |- Longitudinal SPL (L_SPL_Solution[10]): Splits the privacy budget and sanitizes using long_freq_est LDP protocols
+|  |  |- SPL_L_GRR, SPL_L_OUE, SPL_L_OSUE, SPL_L_SUE, SPL_L_SOUE, SPL_L_ADP, SPL_dBitFlipPM
+|  |- Longitudinal SMP (L_SMP_Solution[10]): Samples a single attribute and sanitizes using long_freq_est LDP protocols
+|  |  |- SMP_L_GRR, SMP_L_OUE, SMP_L_OSUE, SMP_L_SUE, SMP_L_SOUE, SMP_L_ADP, SMP_dBitFlipPM
+```
 
 ## Usage
 This is a function-based package that simulates the LDP data collection pipeline of users and the server. For each functionality, there is always a ```Client``` and an ```Aggregator``` function. For more details, please refer to the [tutorials](https://github.com/hharcolezi/multi-freq-ldpy/tree/main/tutorials) folder, which covers all 1--4 tasks with real-world open datasets ([Adult](https://archive.ics.uci.edu/ml/datasets/adult), [Nursery](https://archive.ics.uci.edu/ml/datasets/nursery), [MS-FIMU](https://github.com/hharcolezi/OpenMSFIMU)).
@@ -71,7 +89,7 @@ This is a function-based package that simulates the LDP data collection pipeline
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Multi-Freq-LDPy functions for L-SUE protocol (a.k.a. Basic RAPPOR)
+# Multi-Freq-LDPy functions for L-SUE protocol (a.k.a. Basic RAPPOR[11])
 from multi_freq_ldpy.long_freq_est.L_SUE import L_SUE_Client, L_SUE_Aggregator
 
 # Parameters for simulation
@@ -116,3 +134,18 @@ For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.i
 
 ## License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
+
+
+## References
+- [1] Kairouz, Peter, Keith Bonawitz, and Daniel Ramage. "Discrete distribution estimation under local privacy." International Conference on Machine Learning. PMLR, 2016.
+- [2] Kairouz, Peter, Sewoong Oh, and Pramod Viswanath. "Extremal mechanisms for local differential privacy." Advances in neural information processing systems 27 (2014).
+- [3] Wang, Tianhao, et al. "Locally differentially private protocols for frequency estimation." 26th USENIX Security Symposium (USENIX Security 17). 2017.
+- [4] Bassily, Raef, and Adam Smith. "Local, private, efficient protocols for succinct histograms." Proceedings of the forty-seventh annual ACM symposium on Theory of computing. 2015.
+- [5] Ye, Min, and Alexander Barg. "Optimal schemes for discrete distribution estimation under locally differential privacy." IEEE Transactions on Information Theory 64.8 (2018): 5662-5676.
+- [6] Wang, Shaowei, et al. "Mutual information optimally local private discrete distribution estimation." arXiv preprint arXiv:1607.08025 (2016).
+- [7] Nguyên, Thông T., et al. "Collecting and analyzing data from smart device users with local differential privacy." arXiv preprint arXiv:1606.05053 (2016).
+- [8] Wang, Ning, et al. "Collecting and analyzing multidimensional data with local differential privacy." 2019 IEEE 35th International Conference on Data Engineering (ICDE). IEEE, 2019.
+- [9] Arcolezi, Héber H., et al. "Random sampling plus fake data: Multidimensional frequency estimates with local differential privacy." Proceedings of the 30th ACM International Conference on Information & Knowledge Management. 2021.
+- [10] Arcolezi, Héber H., et al. "Improving the utility of locally differentially private protocols for longitudinal and multidimensional frequency estimates." Digital Communications and Networks (2022).
+- [11] Erlingsson, Úlfar, Vasyl Pihur, and Aleksandra Korolova. "Rappor: Randomized aggregatable privacy-preserving ordinal response." Proceedings of the 2014 ACM SIGSAC conference on computer and communications security. 2014.
+- [12] Ding, Bolin, Janardhan Kulkarni, and Sergey Yekhanin. "Collecting telemetry data privately." Advances in Neural Information Processing Systems 30 (2017).
