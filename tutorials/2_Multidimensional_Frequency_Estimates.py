@@ -40,13 +40,13 @@ from multi_freq_ldpy.mdim_freq_est.SPL_solution import *
 
 # ## Usage Example
 
-# In[9]:
+# In[3]:
 
 
 d = 3 # number of attributes
 lst_k = [2, 5, 10] # number of values per attribute
 input_data = [0, 3, 5] # real input values
-eps = 2 # privacy guarantee
+eps = 1 # privacy guarantee
 
 print('Real value:', input_data)
 print('Sanitization w/ SPL solution and ADP protocol:', SPL_ADP_Client(input_data, lst_k, d, eps, optimal=True)) 
@@ -56,7 +56,7 @@ print('Sanitization w/ RSpFD solution and ADP protocol:', RSpFD_ADP_Client(input
 
 # ## Reading MS-FIMU dataset
 
-# In[3]:
+# In[4]:
 
 
 df = pd.read_csv('datasets/db_ms_fimu.csv')
@@ -65,7 +65,7 @@ df
 
 # ## Encoding values
 
-# In[4]:
+# In[5]:
 
 
 LE = LabelEncoder()
@@ -80,7 +80,7 @@ df
 
 # ## Static Parameteres
 
-# In[5]:
+# In[6]:
 
 
 # number of users
@@ -104,7 +104,7 @@ print('Epsilon values =', lst_eps)
 
 # ## Comparison of multidimensional solutions with single-time protocols
 
-# In[6]:
+# In[7]:
 
 
 # Real normalized frequencies
@@ -115,12 +115,12 @@ nb_seed = 30
 
 # Save Averaged Mean Squared Error (MSE_avg) between real and estimated frequencies per seed
 dic_avg_mse = {seed: 
-                   {"SPL_GRR": [], "SPL_SUE": [], "SPL_OUE": [], "SPL_BLH": [], "SPL_OLH": [], "SPL_ADP": [],
-                    "SMP_GRR": [], "SMP_SUE": [], "SMP_OUE": [], "SMP_BLH": [], "SMP_OLH": [], "SMP_ADP": [],
-                    "RSpFD_GRR": [], "RSpFD_SUE_zero": [], "RSpFD_SUE_rnd": [], "RSpFD_OUE_zero": [], 
-                    "RSpFD_OUE_rnd": [], "RSpFD_ADP": []
-                   } 
-                   for seed in range(nb_seed)
+               {"SPL_GRR": [], "SPL_SUE": [], "SPL_OUE": [], "SPL_BLH": [], "SPL_OLH": [], "SPL_SS": [], "SPL_ADP": [],
+                "SMP_GRR": [], "SMP_SUE": [], "SMP_OUE": [], "SMP_BLH": [], "SMP_OLH": [], "SMP_SS": [], "SMP_ADP": [],
+                "RSpFD_GRR": [], "RSpFD_SUE_zero": [], "RSpFD_SUE_rnd": [], "RSpFD_OUE_zero": [], 
+                "RSpFD_OUE_rnd": [], "RSpFD_ADP": []
+               } 
+               for seed in range(nb_seed)
               }
 
 starttime = time.time()
@@ -129,7 +129,7 @@ for seed in range(nb_seed):
 
     for eps in lst_eps:
         
-        # SPL solution
+        # SPL solution        
 #         spl_reports = [SPL_GRR_Client(input_data, lst_k, d, eps) for input_data in df.values]
 #         spl_est_freq = SPL_GRR_Aggregator(spl_reports, lst_k, d, eps)
 #         dic_avg_mse[seed]["SPL_GRR"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
@@ -149,6 +149,10 @@ for seed in range(nb_seed):
 #         spl_reports = [SPL_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
 #         spl_est_freq = SPL_LH_Aggregator(spl_reports, lst_k, d, eps, optimal=True)
 #         dic_avg_mse[seed]["SPL_OLH"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))
+        
+#         spl_reports = [SPL_SS_Client(input_data, lst_k, d, eps) for input_data in df.values]
+#         spl_est_freq = SPL_SS_Aggregator(spl_reports, lst_k, d, eps)
+#         dic_avg_mse[seed]["SPL_SS"].append(np.mean([mean_squared_error(real_freq[att], spl_est_freq[att]) for att in range(d)]))    
         
         spl_reports = [SPL_ADP_Client(input_data, lst_k, d, eps) for input_data in df.values]
         spl_est_freq = SPL_ADP_Aggregator(spl_reports, lst_k, d, eps)
@@ -174,6 +178,10 @@ for seed in range(nb_seed):
 #         smp_reports = [SMP_LH_Client(input_data, d, eps, optimal=True) for input_data in df.values]
 #         smp_est_freq = SMP_LH_Aggregator(smp_reports, lst_k, d, eps, optimal=True)
 #         dic_avg_mse[seed]["SMP_OLH"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))
+
+#         smp_reports = [SMP_SS_Client(input_data, lst_k, d, eps) for input_data in df.values]
+#         smp_est_freq = SMP_SS_Aggregator(smp_reports, lst_k, d, eps)
+#         dic_avg_mse[seed]["SMP_SS"].append(np.mean([mean_squared_error(real_freq[att], smp_est_freq[att]) for att in range(d)]))               
 
         smp_reports = [SMP_ADP_Client(input_data, lst_k, d, eps) for input_data in df.values]
         smp_est_freq = SMP_ADP_Aggregator(smp_reports, lst_k, d, eps)
@@ -209,7 +217,7 @@ print('That took {} seconds'.format(time.time() - starttime))
 
 # ## Plotting metrics results
 
-# In[7]:
+# In[8]:
 
 
 plt.figure(figsize=(8,5))
@@ -221,14 +229,18 @@ plt.grid(color='grey', linestyle='dashdot', linewidth=0.5)
 # plt.plot(np.mean([dic_avg_mse[seed]["SPL_OUE"] for seed in range(nb_seed)], axis=0), label='SPL_OUE', marker='o')
 # plt.plot(np.mean([dic_avg_mse[seed]["SPL_BLH"] for seed in range(nb_seed)], axis=0), label='SPL_BLH', marker='o')
 # plt.plot(np.mean([dic_avg_mse[seed]["SPL_OLH"] for seed in range(nb_seed)], axis=0), label='SPL_OLH', marker='o')
+# plt.plot(np.mean([dic_avg_mse[seed]["SPL_SS"] for seed in range(nb_seed)], axis=0), label='SPL_SS', marker='o')
 plt.plot(np.mean([dic_avg_mse[seed]["SPL_ADP"] for seed in range(nb_seed)], axis=0), label='SPL_ADP', marker='o')
+
 # SMP solution
 # plt.plot(np.mean([dic_avg_mse[seed]["SMP_GRR"] for seed in range(nb_seed)], axis=0), label='SMP_GRR',marker='>',linestyle='dashed')
 # plt.plot(np.mean([dic_avg_mse[seed]["SMP_SUE"] for seed in range(nb_seed)], axis=0), label='SMP_SUE',marker='>',linestyle='dashed')
 # plt.plot(np.mean([dic_avg_mse[seed]["SMP_OUE"] for seed in range(nb_seed)], axis=0), label='SMP_OUE',marker='>',linestyle='dashed')
 # plt.plot(np.mean([dic_avg_mse[seed]["SMP_BLH"] for seed in range(nb_seed)], axis=0), label='SMP_BLH',marker='>',linestyle='dashed')
 # plt.plot(np.mean([dic_avg_mse[seed]["SMP_OLH"] for seed in range(nb_seed)], axis=0), label='SMP_OLH',marker='>',linestyle='dashed')
+# plt.plot(np.mean([dic_avg_mse[seed]["SMP_SS"] for seed in range(nb_seed)], axis=0), label='SMP_SS',marker='>',linestyle='dashed')
 plt.plot(np.mean([dic_avg_mse[seed]["SMP_ADP"] for seed in range(nb_seed)], axis=0), label='SMP_ADP',marker='>',linestyle='dashed')
+
 # RSpFD solution
 # plt.plot(np.mean([dic_avg_mse[seed]["RSpFD_GRR"] for seed in range(nb_seed)], axis=0), label='RSpFD_GRR',marker='s',linestyle='dotted')
 # plt.plot(np.mean([dic_avg_mse[seed]["RSpFD_SUE_zero"] for seed in range(nb_seed)], axis=0), label='RSpFD_SUE_zero',marker='s',linestyle='dotted')
@@ -247,7 +259,7 @@ plt.show();
 
 # ## Example of Real vs Estimated Freqencies
 
-# In[8]:
+# In[9]:
 
 
 plt.figure(figsize=(12, 5))
