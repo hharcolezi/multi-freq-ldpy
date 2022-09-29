@@ -8,15 +8,8 @@ If our codes and work are useful to you, we would appreciate a reference to:
 
 ```
 @inproceedings{Arcolezi2022,
-  author    = {H{\'{e}}ber Hwang Arcolezi and
-               Jean{-}Fran{\c{c}}ois Couchot and
-               S{\'{e}}bastien Gambs and
-               Catuscia Palamidessi and
-               Majid Zolfaghari},
-  editor    = {Vijayalakshmi Atluri and
-               Roberto Di Pietro and
-               Christian Damsgaard Jensen and
-               Weizhi Meng},
+  author    = {H{\'{e}}ber Hwang Arcolezi and Jean{-}Fran{\c{c}}ois Couchot and S{\'{e}}bastien Gambs and Catuscia Palamidessi and Majid Zolfaghari},
+  editor    = {Vijayalakshmi Atluri and Roberto Di Pietro and Christian Damsgaard Jensen and Weizhi Meng},
   title     = {Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
   booktitle = {Computer Security - {ESORICS} 2022 - 27th European Symposium on Research in Computer Security, Copenhagen, Denmark, September 26-30, 2022, Proceedings, Part {III}},
   series    = {Lecture Notes in Computer Science},
@@ -24,7 +17,6 @@ If our codes and work are useful to you, we would appreciate a reference to:
   pages     = {770--775},
   publisher = {Springer},
   year      = {2022},
-  url       = {https://doi.org/10.1007/978-3-031-17143-7\_40},
   doi       = {10.1007/978-3-031-17143-7\_40},
 }
 ```
