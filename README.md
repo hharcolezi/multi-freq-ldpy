@@ -7,11 +7,25 @@ Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch
 If our codes and work are useful to you, we would appreciate a reference to:
 
 ```
-@article{arcolezi2022multi,
-  title={Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
-  author={Arcolezi, H{\'e}ber H and Couchot, Jean-Fran{\c{c}}ois and Gambs, S{\'e}bastien and Palamidessi, Catuscia and Zolfaghari, Majid},
-  journal={arXiv preprint arXiv:2205.02648},
-  year={2022}
+@inproceedings{Arcolezi2022,
+  author    = {H{\'{e}}ber Hwang Arcolezi and
+               Jean{-}Fran{\c{c}}ois Couchot and
+               S{\'{e}}bastien Gambs and
+               Catuscia Palamidessi and
+               Majid Zolfaghari},
+  editor    = {Vijayalakshmi Atluri and
+               Roberto Di Pietro and
+               Christian Damsgaard Jensen and
+               Weizhi Meng},
+  title     = {Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python},
+  booktitle = {Computer Security - {ESORICS} 2022 - 27th European Symposium on Research in Computer Security, Copenhagen, Denmark, September 26-30, 2022, Proceedings, Part {III}},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {13556},
+  pages     = {770--775},
+  publisher = {Springer},
+  year      = {2022},
+  url       = {https://doi.org/10.1007/978-3-031-17143-7\_40},
+  doi       = {10.1007/978-3-031-17143-7\_40},
 }
 ```
 
@@ -128,7 +142,7 @@ plt.show();
 Multi-Freq-LDPy is a work in progress, and we expect to release new versions frequently, incorporating feedback and code contributions from the community. Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Contact
-For any question, please contact [Heber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
+For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
 
 ## Acknowledgments
    * The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
