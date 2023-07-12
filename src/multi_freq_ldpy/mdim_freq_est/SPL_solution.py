@@ -1,9 +1,9 @@
 import numpy as np
-from multi_freq_ldpy.pure_frequency_oracles.GRR import GRR_Client, GRR_Aggregator
-from multi_freq_ldpy.pure_frequency_oracles.UE import UE_Client, UE_Aggregator
-from multi_freq_ldpy.pure_frequency_oracles.ADP import ADP_Client, ADP_Aggregator
-from multi_freq_ldpy.pure_frequency_oracles.LH import LH_Client, LH_Aggregator
-from multi_freq_ldpy.pure_frequency_oracles.SS import SS_Client, SS_Aggregator
+from multi_freq_ldpy.pure_frequency_oracles.GRR import GRR_Client, GRR_Aggregator_MI
+from multi_freq_ldpy.pure_frequency_oracles.UE import UE_Client, UE_Aggregator_MI
+from multi_freq_ldpy.pure_frequency_oracles.ADP import ADP_Client, ADP_Aggregator_MI
+from multi_freq_ldpy.pure_frequency_oracles.LH import LH_Client, LH_Aggregator_MI
+from multi_freq_ldpy.pure_frequency_oracles.SS import SS_Client, SS_Aggregator_MI
 
 # [1] Kairouz, Bonawitz, and Ramage (2016) "Discrete distribution estimation under local privacy" (ICML)
 # [2] Erlingsson, Pihur, and Korolova (2014) "RAPPOR: Randomized aggregatable privacy-preserving ordinal response" (ACM CCS).
@@ -57,7 +57,7 @@ def SPL_UE_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
 	return sanitized_ue_tuple
 
-def SPL_LH_Client(input_tuple, d, epsilon, optimal=True):
+def SPL_LH_Client(input_tuple, lst_k, d, epsilon, optimal=True):
     """
     Splitting (SPL) the privacy budget and using Local Hashing (LH) [3] protocol as local randomizer.
 
@@ -75,7 +75,7 @@ def SPL_LH_Client(input_tuple, d, epsilon, optimal=True):
     sanitized_tuple = []
     for idx in range(d):
 
-        sanitized_tuple.append(LH_Client(input_tuple[idx], eps_spl, optimal))
+        sanitized_tuple.append(LH_Client(input_tuple[idx], lst_k[idx], eps_spl, optimal))
 
     return sanitized_tuple
 
@@ -126,7 +126,7 @@ def SPL_ADP_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
 	return sanitized_tuple
 
-def SPL_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
+def SPL_GRR_Aggregator_MI(reports_tuple, lst_k, d, epsilon):
 
 	"""
 	Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -151,11 +151,11 @@ def SPL_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
 	for idx in range(d):
 		
 		reports = reports_tuple[:, idx]
-		lst_freq_est.append(GRR_Aggregator(reports, lst_k[idx], eps_spl))
+		lst_freq_est.append(GRR_Aggregator_MI(reports, lst_k[idx], eps_spl))
 
 	return np.array(lst_freq_est, dtype='object')
 
-def SPL_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
+def SPL_UE_Aggregator_MI(reports_tuple, d, epsilon, optimal=True):
 
 	"""
 	Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -181,11 +181,11 @@ def SPL_UE_Aggregator(reports_tuple, d, epsilon, optimal=True):
 	for idx in range(d):
 		
 		reports_ue = reports_tuple[:, idx]
-		lst_freq_est.append(UE_Aggregator(reports_ue, eps_spl, optimal))
+		lst_freq_est.append(UE_Aggregator_MI(reports_ue, eps_spl, optimal))
 
 	return np.array(lst_freq_est, dtype='object')
 
-def SPL_LH_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+def SPL_LH_Aggregator_MI(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -211,11 +211,11 @@ def SPL_LH_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
     for idx in range(d):
 
         reports = reports_tuple[:, idx]
-        lst_freq_est.append(LH_Aggregator(reports, lst_k[idx], eps_spl, optimal))
+        lst_freq_est.append(LH_Aggregator_MI(reports, lst_k[idx], eps_spl, optimal))
 
     return np.array(lst_freq_est, dtype='object')
 
-def SPL_SS_Aggregator(reports_tuple, lst_k, d, epsilon):
+def SPL_SS_Aggregator_MI(reports_tuple, lst_k, d, epsilon):
 
 	"""
 	Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -240,11 +240,11 @@ def SPL_SS_Aggregator(reports_tuple, lst_k, d, epsilon):
 	for idx in range(d):
 		
 		reports = reports_tuple[:, idx]
-		lst_freq_est.append(SS_Aggregator(reports, lst_k[idx], eps_spl))
+		lst_freq_est.append(SS_Aggregator_MI(reports, lst_k[idx], eps_spl))
 
 	return np.array(lst_freq_est, dtype='object')
 
-def SPL_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+def SPL_ADP_Aggregator_MI(reports_tuple, lst_k, d, epsilon, optimal=True):
 
 	"""
 	Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -270,6 +270,6 @@ def SPL_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 	for idx in range(d):
 
 		reports = reports_tuple[:, idx]
-		lst_freq_est.append(ADP_Aggregator(reports, lst_k[idx], eps_spl, optimal))
+		lst_freq_est.append(ADP_Aggregator_MI(reports, lst_k[idx], eps_spl, optimal))
 
 	return np.array(lst_freq_est, dtype='object')

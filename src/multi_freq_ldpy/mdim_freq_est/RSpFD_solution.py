@@ -167,7 +167,7 @@ def RSpFD_ADP_Client(input_tuple, lst_k, d, epsilon, optimal=True):
 
     return sanitized_tuple
 
-def RSpFD_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
+def RSpFD_GRR_Aggregator_MI(reports_tuple, lst_k, d, epsilon):
 
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -216,7 +216,7 @@ def RSpFD_GRR_Aggregator(reports_tuple, lst_k, d, epsilon):
 
     return np.array(lst_freq_est, dtype='object')
 
-def RSpFD_UE_zero_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+def RSpFD_UE_zero_Aggregator_MI(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -265,7 +265,7 @@ def RSpFD_UE_zero_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     return np.array(lst_freq_est, dtype='object')
 
-def RSpFD_UE_rnd_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+def RSpFD_UE_rnd_Aggregator_MI(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
@@ -314,7 +314,7 @@ def RSpFD_UE_rnd_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     return np.array(lst_freq_est, dtype='object')
 
-def RSpFD_ADP_Aggregator(reports_tuple, lst_k, d, epsilon, optimal=True):
+def RSpFD_ADP_Aggregator_MI(reports_tuple, lst_k, d, epsilon, optimal=True):
 
     """
     Statistical Estimator for Normalized Frequency (0 -- 1) of all d attributes with post-processing to ensure non-negativity.
