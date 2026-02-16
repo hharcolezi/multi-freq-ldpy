@@ -1,8 +1,17 @@
 # Multi-Freq-LDPy: Multiple Frequency Estimation Under Local Differential Privacy in Python
 
+[![PyPI version](https://img.shields.io/pypi/v/multi-freq-ldpy.svg)](https://pypi.org/project/multi-freq-ldpy/)
+[![Python versions](https://img.shields.io/pypi/pyversions/multi-freq-ldpy.svg)](https://pypi.org/project/multi-freq-ldpy/)
+[![License](https://img.shields.io/github/license/hharcolezi/multi-freq-ldpy.svg)](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
+[![Downloads](https://static.pepy.tech/badge/multi-freq-ldpy)](https://pepy.tech/project/multi-freq-ldpy)
+[![Stars](https://img.shields.io/github/stars/hharcolezi/multi-freq-ldpy.svg)](https://github.com/hharcolezi/multi-freq-ldpy/stargazers)
+
 Multi-Freq-LDPy is a Python library for performing multiple frequency estimation tasks (one-time, multidimensional, longitudinal, and both) under local differential privacy (LDP) guarantees. The main goal is to provide an easy-to-use and fast execution toolkit to benchmark and experiment with state-of-the-art solutions and LDP protocols.
 
-Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch/c3hhQYVYNDi), [Slide_Presentation](http://hharcolezi.github.io/files/2022_Multi_Freq_LDPy_Presentation.pdf), and [arXived Demonstration Paper](https://arxiv.org/abs/2205.02648) of our package.
+## 📚 Resources
+Here's an introductory [Video_Presentation](https://screencast-o-matic.com/watch/c3hhQYVYNDi), [Slide_Presentation](http://hharcolezi.github.io/files/2022_Multi_Freq_LDPy_Presentation.pdf), and [Demonstration Paper](https://arxiv.org/abs/2205.02648) of our package.
+
+## 📜 Citation
 
 If our codes and work are useful to you, we would appreciate a reference to:
 
@@ -34,7 +43,7 @@ If our codes and work are useful to you, we would appreciate a reference to:
 
 
 
-## Installation
+## 🚀 Installation
 
 Please use the package manager [pip](https://pypi.org/project/multi-freq-ldpy/) to install multi-freq-ldpy.
 
@@ -56,7 +65,7 @@ numba
 xxhash
 ```
 
-## Content
+## 📁 Content
 Multi-Freq-LDPy and its modules are structured as follows. 
 
 ```
@@ -112,7 +121,7 @@ multi-freq-ldpy package
 |  |- IBU (Iterative Bayesian Estimator[14])
 ```
 
-## Usage
+## ⚡ Usage
 This is a function-based package that simulates the LDP data collection pipeline of users and the server. For each functionality, there is always a ```Client``` and an ```Aggregator``` function. For more details, please refer to the [tutorials](https://github.com/hharcolezi/multi-freq-ldpy/tree/main/tutorials) folder, which covers all 1--4 tasks with real-world open datasets ([Adult](https://archive.ics.uci.edu/ml/datasets/adult), [Nursery](https://archive.ics.uci.edu/ml/datasets/nursery), [MS-FIMU](https://github.com/hharcolezi/OpenMSFIMU)).
 
 ```python
@@ -157,21 +166,21 @@ plt.legend(ncol=3, loc='upper right', bbox_to_anchor=(1., 1.1))
 plt.show();
 ```
 
-## Contributing
+## 🤝 Contributing
 Multi-Freq-LDPy is a work in progress, and we expect to release new versions frequently, incorporating feedback and code contributions from the community. Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## Contact
-For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.io/): heber.hwang-arcolezi [at] inria.fr
+## 📬 Contact
+For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.io/).
 
-## Acknowledgments
+## 🙏 Acknowledgments
    * The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
    * Some codes were adapted from our [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs) and [LOLOHA](https://github.com/hharcolezi/LOLOHA) repositories. 
 
-## License
+## 📝 License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
 
 
-## Main References
+## 📚 Main References
 - [1] Kairouz, Peter, Keith Bonawitz, and Daniel Ramage. "Discrete distribution estimation under local privacy." International Conference on Machine Learning. PMLR, 2016.
 - [2] Kairouz, Peter, Sewoong Oh, and Pramod Viswanath. "Extremal mechanisms for local differential privacy." Advances in neural information processing systems 27 (2014).
 - [3] Wang, Tianhao, et al. "Locally differentially private protocols for frequency estimation." 26th USENIX Security Symposium (USENIX Security 17). 2017.
