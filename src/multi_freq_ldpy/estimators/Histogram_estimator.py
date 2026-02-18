@@ -81,7 +81,8 @@ def MLE(count_report, n, p, q):
     :return : normalized frequency (histogram) estimation.
     """
     assert p >= q >= 0, ("Invalid noise parameters", p, q)
-    assert np.sum(count_report) == n, ("Invalid count_report", count_report, n)
+    assert np.isclose(np.sum(count_report), n), \
+        ("Invalid count_report", count_report, n)
     phi = np.asarray(count_report) / n
     n_cats = len(phi)
     sig = np.argsort(phi)
