@@ -119,6 +119,7 @@ multi-freq-ldpy package
 | - estimators (Distribution Estimator Methods)
 |  |- MI (Matrix Inverse)
 |  |- IBU (Iterative Bayesian Estimator[14])
+|  |- MLE (Maximum Likelihood Estimator[15])
 ```
 
 ## ⚡ Usage
@@ -174,7 +175,7 @@ For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.
 
 ## 🙏 Acknowledgments
    * The Local Hashing (LH) functions were adapted from the [pure-LDP](https://github.com/Samuel-Maddock/pure-LDP) package, which covers a wider range of frequency oracles for single-frequency estimation.
-   * Some codes were adapted from our [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs) and [LOLOHA](https://github.com/hharcolezi/LOLOHA) repositories. 
+   * Some codes were adapted from our [ldp-protocols-mobility-cdrs](https://github.com/hharcolezi/ldp-protocols-mobility-cdrs), [LOLOHA](https://github.com/hharcolezi/LOLOHA) and [mle-of-randomized-response](https://github.com/caph1993/mle-of-randomized-response) repositories.
 
 ## 📝 License
 [MIT](https://github.com/hharcolezi/multi-freq-ldpy/blob/main/LICENSE)
@@ -195,3 +196,4 @@ For any question, please contact [Héber H. Arcolezi](https://hharcolezi.github.
 - [12] Arcolezi, Héber H., et al. "Frequency Estimation of Evolving Data Under Local Differential Privacy." arXiv preprint arXiv:2210.00262 (2022).
 - [13] Ding, Bolin, Janardhan Kulkarni, and Sergey Yekhanin. "Collecting telemetry data privately." Advances in Neural Information Processing Systems 30 (2017).
 - [14] Agrawal, Dakshi, and Charu C. Aggarwal. "On the design and quantification of privacy preserving data mining algorithms." Proceedings of the twentieth ACM SIGMOD-SIGACT-SIGART symposium on Principles of database systems. 2001.
+- [15] Pinzón, Carlos Antonio, et al. "Estimating the True Distribution of Data Collected with Randomized Response." arXiv preprint arXiv:2601.08603 (2026).
