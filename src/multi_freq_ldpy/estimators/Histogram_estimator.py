@@ -3,6 +3,8 @@ from numba import jit
 
 # [1] Agrawal et al (2001) "On the Design and Quantification of Privacy Preserving Data Mining Algorithms" (PODS).
 # [2] Ehab et al (2020) "Generalized Iterative Bayesian Update and Applications to Mechanisms for Privacy Protection" (EuroS&P).
+# [3] Pinzon et al (2026) "Estimating the True Distribution of Data Collected with Randomized Response" (AAAI).
+
 
 def MI(count_report, n, p, q):
     """
@@ -33,6 +35,7 @@ def MI(count_report, n, p, q):
 
     return norm_est_freq
 
+
 def MI_long(count_report, n, p1, q1, p2, q2):
     """
     Matrix Inversion (MI).
@@ -53,7 +56,9 @@ def MI_long(count_report, n, p1, q1, p2, q2):
     #     raise ValueError('n (int), p (float), q (float) need numerical values.')
 
     # Ensure non-negativity of estimated frequency
-    est_freq = ((count_report - n * q1 * (p2 - q2) - n * q2) / (n * (p1 - q1) * (p2 - q2))).clip(0)
+    est_freq = (
+        (count_report - n * q1 * (p2 - q2) - n * q2) / (n * (p1 - q1) * (p2 - q2))
+    ).clip(0)
 
     # Re-normalized estimated frequency
     if sum(est_freq) > 0:
@@ -63,6 +68,35 @@ def MI_long(count_report, n, p1, q1, p2, q2):
         norm_est_freq = est_freq
 
     return norm_est_freq
+
+
+def MLE(count_report, n, p, q):
+    """
+    Maximum Likelihood Estimation (MLE). [3]
+
+    :param count_report : number of times that each value was reported;
+    :param n : number of reports;
+    :param p : probability of being honest;
+    :param q : probability of lying;
+    :return : normalized frequency (histogram) estimation.
+    """
+    assert p >= q >= 0, ("Invalid noise parameters", p, q)
+    assert np.isclose(np.sum(count_report), n), \
+        ("Invalid count_report", count_report, n)
+    phi = np.asarray(count_report) / n
+    n_cats = len(phi)
+    sig = np.argsort(phi)
+    k = 0
+    s = 1  # invariant: s = sum(phi[sig[k:]])
+    while k < n_cats and q * s > (1 - k * q) * phi[sig[k]]:
+        s -= phi[sig[k]]
+        k += 1
+    theta = np.zeros(n_cats)
+    theta[sig[k:]] = ((1 - k * q) * phi[sig[k:]] - s * q) / (s * (p - q))
+
+    # Renormalize just for numerical stability (in theory, the sum should be 1)
+    theta = np.nan_to_num(theta / np.sum(theta))
+    return theta
 
 
 @jit(nopython=True)
@@ -94,7 +128,7 @@ def IBU(k, A, obs_freq, nb_iter, tol, err_func):
     est_freq_t = None
 
     # Step 2 - Maximization: calculating estimated frequencies
-    if err_func=="max_abs":
+    if err_func == "max_abs":
         for _ in range(nb_iter):
             est_freq_t = est_freq * np.dot(A, obs_freq / np.dot(A, est_freq))
             if np.abs(est_freq - est_freq_t).max() < tol:
@@ -102,7 +136,7 @@ def IBU(k, A, obs_freq, nb_iter, tol, err_func):
             else:
                 est_freq = est_freq_t
 
-    elif err_func=="mse":
+    elif err_func == "mse":
         for _ in range(nb_iter):
             est_freq_t = est_freq * np.dot(A, obs_freq / np.dot(A, est_freq))
             if np.square(np.subtract(est_freq_t, est_freq)).mean() < tol:
@@ -126,7 +160,8 @@ def IBU(k, A, obs_freq, nb_iter, tol, err_func):
             else:
                 est_freq = est_freq_t
     else:
-        raise ValueError('Error function unknown. Options are: max_abs, mse, mae, max_squared.')
+        raise ValueError(
+            "Error function unknown. Options are: max_abs, mse, mae, max_squared."
+        )
 
     return est_freq_t
-
